@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Us | BuildView</title>
+    <meta name="description" content="Learn about the story, vision, and team behind BuildView Creative Studio." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #070914;
+            --bg-soft: #101223;
+            --glass-bg: rgba(22, 25, 48, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f4f8;
+            --text-secondary: #a8b2d1;
+            --primary-pink: #ff0080;
+            --primary-purple: #7928ca;
+            --primary-gradient: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 25% 25%, rgba(121, 40, 202, 0.2), transparent 35%),
+                              radial-gradient(circle at 75% 75%, rgba(255, 0, 128, 0.15), transparent 40%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Animated Gradient Text */
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* Main Container */
+        .page-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* --- HEADER --- */
+        .main-header {
+            position: sticky;
+            top: 16px;
+            margin: 16px auto;
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .logo .mark {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+         .logo .mark img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+         }
+
+        .logo-text h3 {
+            font-size: 1.25rem;
+            line-height: 1;
+            color: var(--text-primary);
+        }
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            background: var(--primary-gradient);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 4px 10px rgba(121, 40, 202, 0.4);
+        }
+        
+        /* --- TIMELINE WRAPPER --- */
+        .timeline-wrapper {
+            position: relative;
+            padding-left: 40px; /* Space for timeline */
+        }
+        .timeline-wrapper::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-image: linear-gradient(to bottom, var(--primary-purple) 0%, var(--primary-pink) 100%);
+            opacity: 0.1;
+        }
+        
+        .timeline-section {
+            padding: 80px 0;
+            position: relative;
+        }
+        .timeline-section::before {
+            content: '';
+            position: absolute;
+            left: -35px; /* (40px padding - 5px) */
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            background: var(--bg-soft);
+            border: 2px solid var(--text-secondary);
+            opacity: 0.3;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+        .timeline-section.is-visible::before {
+            border-color: var(--primary-pink);
+            transform: scale(1.2);
+            opacity: 1;
+            box-shadow: 0 0 15px var(--primary-pink);
+        }
+
+        /* Section Headings */
+        .section-header {
+            margin-bottom: 40px;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            text-align: center;
+            padding: 120px 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero-section::before { top: 0; }
+        .hero-section h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            max-width: 800px;
+            margin-bottom: 24px;
+        }
+        .hero-section .lead {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin-bottom: 32px;
+        }
+
+        /* Glass Card Style */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: var(--radius-lg);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .glass-card:hover::after {
+            opacity: 0.05;
+        }
+        
+        /* Grid for Vision & Mission */
+        .philosophy-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+             gap: 24px;
+        }
+        .philosophy-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .philosophy-card p {
+            color: var(--text-secondary);
+        }
+         .team {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            text-align: center;
+        }
+
+        .team-card {
+            background: var(--slate-700);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            min-height: 350px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .team-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.4s ease, filter 0.4s ease;
+        }
+        
+        .team-card:hover img {
+            transform: scale(1.05);
+            filter: brightness(0.7);
+        }
+
+        .team-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, transparent);
+            color: var(--white);
+            transform: translateY(30%);
+            transition: transform 0.4s ease;
+        }
+
+        .team-card:hover .team-info {
+            transform: translateY(0);
+        }
+        
+        .team-info h3 {
+            font-size: 1.25rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .team-info p {
+            margin: 0.25rem 0 0.5rem 0;
+            color: var(--sky-400);
+            font-weight: 500;
+        }
+
+        .team-info small {
+            font-size: 0.875rem;
+            color: var(--slate-400);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .team-card:hover .team-info small {
+            opacity: 1;
+        }
+
+        /* Team Grid */
+        /* .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        .team-member-card {
+            text-align: center;
+        }
+        .team-member-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+        .team-member-card:hover img {
+            border-color: var(--primary-pink);
+            transform: scale(1.05);
+        }
+        .team-member-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+        .team-member-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+         */
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .philosophy-grid, .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .timeline-wrapper { padding-left: 20px; }
+            .timeline-wrapper::before { left: 0; }
+            .timeline-section::before { left: -6px; }
+            .section-header h2 { font-size: 2rem; }
+            .main-header {
+                flex-direction: column;
+                gap: 12px;
+                position: static;
+                margin-top: 0;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <header class="main-header">
+            <a href="/" class="logo">
+                <div class="mark"><img src="/Images/Buildview.png" alt="B"></div>
+                <div class="logo-text">
+                    <h3>BuildView</h3>
+                    <p>Creative Studio</p>
+                </div>
+            </a>
+            <nav>
+                <a href="Contact.html" class="btn">Get in Touch</a>
+            </nav>
+        </header>
+
+        <main class="timeline-wrapper">
+            <section class="timeline-section hero-section" id="about-hero">
+                <h1 class="fade-in">We Are <span class="gradient-text">BuildView</span></h1>
+                <p class="lead fade-in">A passionate team of creators, developers, and strategists dedicated to building impactful digital experiences.</p>
+            </section>
+            
+            <section class="timeline-section" id="story">
+                <div class="section-header fade-in">
+                    <h2>Our Story</h2>
+                </div>
+                <div class="glass-card fade-in">
+                    <p style="text-align: center; max-width: 700px; margin: auto; font-size: 1.1rem; color: var(--text-secondary);">
+                        BuildView was founded with a vision to bridge the gap between creativity and technology. Starting as a small web development and branding studio, we have expanded our services into video editing, motion graphics, and AI-powered solutions, working with clients across industries and continents to bring their ideas to life.
+                    </p>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="philosophy">
+                <div class="section-header fade-in">
+                    <h2>Our Philosophy</h2>
+                    <p>The core beliefs that drive our work and guide our partnerships.</p>
+                </div>
+                <div class="philosophy-grid">
+                    <div class="philosophy-card glass-card fade-in">
+                        <h4>Our Vision</h4>
+                        <p>To empower brands and creators with innovative digital solutions that inspire and engage audiences globally.</p>
+                    </div>
+                     <div class="philosophy-card glass-card fade-in">
+                        <h4>Our Mission</h4>
+                        <p>We blend technology, design, and strategy to craft impactful branding experiences that drive growth and creativity.</p>
+                    </div>
+                </div>
+            </section>
+
+          <section class="section">
+        <h2 class="fade-in">Our Team</h2>
+        <div class="team">
+            <div class="team-card fade-in">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2960&auto=format&fit=crop" alt="Rohan Sharma">
+                <div class="team-info">
+                    <h3>Rohit Solanki</h3>
+                    <p>Founder & CEO</p>
+                    <small>Brand Strategy & Leadership</small>
+                </div>
+            </div>
+            <div class="team-card fade-in">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=2861&auto=format&fit=crop" alt="Aditi Verma">
+                <div class="team-info">
+                    <h3>Pankaj Shilpi</h3>
+                    <p>Co-Founder & MD </p>
+                    <small>Design & Visual Identity</small>
+                </div>
+            </div>
+            <div class="team-card fade-in">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2874&auto=format&fit=crop" alt="Arjun Mehta">
+                <div class="team-info">
+                    <h3>Satish Solanki</h3>
+                    <p>Head of Development</p>
+                    <small>Web & App Development</small>
+                </div>
+            </div>
+            <div class="team-card fade-in">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2874&auto=format&fit=crop" alt="Kavya Iyer">
+                <div class="team-info">
+                    <h3>Rajveer Kushwah</h3>
+                    <p>Lead Video Editor</p>
+                    <small>Motion Graphics & Editing</small>
+                </div>
+            </div>
+            <div class="team-card fade-in">
+                <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2960&auto=format&fit=crop" alt="Vikram Singh">
+                <div class="team-info">
+                    <h3>Naina Sisodiya</h3>
+                    <p>Marketing Manager</p>
+                    <small>SEO & Digital Marketing</small>
+                </div>
+            </div>
+            <div class="team-card fade-in">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=2876&auto=format&fit=crop" alt="Priya Nair">
+                <div class="team-info">
+                    <h3>Dipasha Piplodiya</h3>
+                    <p>AI Solutions Specialist</p>
+                    <small>Generative AI & Automation</small>
+                </div>
+            </div>
+        </div>
+    </section>
+             <section class="timeline-section cta-section" id="contact">
+                   <div class="glass-card fade-in">
+                       <div class="section-header" style="margin-bottom: 24px; text-align: center;">
+                           <h2 class="gradient-text">Ready to Build Your Vision?</h2>
+                           <p style="max-width: 600px; margin: auto;">Let's talk about your next project. We're here to help you make an impact.</p>
+                       </div>
+                       <div style="text-align: center;">
+                          <a href="Contact.html" class="btn">Start a Conversation</a>
+                       </div>
+                   </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p>© 2025 BuildView Creative Studio. All Rights Reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if ('IntersectionObserver' in window) {
+                // Select all elements that need animation
+                const elementsToAnimate = document.querySelectorAll('.fade-in, .timeline-section');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Add 'is-visible' class to trigger animations and timeline dot changes
+                            entry.target.classList.add('is-visible');
+                            // Stop observing the element once it's visible
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
+
+                elementsToAnimate.forEach(element => {
+                    observer.observe(element);
+                });
+            } else {
+                // Fallback for older browsers that don't support IntersectionObserver
+                 const elementsToAnimate = document.querySelectorAll('.fade-in, .timeline-section');
+                 elementsToAnimate.forEach(element => {
+                    element.classList.add('is-visible');
+                 });
+            }
+        });
+    </script>
+</body>
+</html>

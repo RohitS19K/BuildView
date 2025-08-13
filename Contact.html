@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BuildView Contact Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      /* background: url('/Images/Buildview.png') no-repeat center center/cover; */
+      /* background: linear-gradient(-45deg, #ff0080, #7928ca, #ff6ec4, #a18cd1); */
+      background: rgb(39, 38, 37);
+       animation: animatedGradient 10s ease infinite;
+      /* z-index: -1;*/
+      opacity: 0.8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      /* height: auto; */
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding:  2rem 2rem;
+      width: 100%;
+      max-width: 500px;
+      color: #fff;
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.7rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #ccc;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: linear-gradient(135deg, #8e44ad, #c0392b);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #9b59b6, #e74c3c);
+    }
+
+    /* Success Popup */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+      z-index: 999;
+      transition: all 0.4s ease;
+    }
+
+    .popup.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .popup h3 {
+      margin-bottom: 1rem;
+    }
+
+    .popup button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #fff;
+      color: #000;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Contact BuildView</h2>
+    <form id="contactForm">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="" required />
+      </div>
+      <div class="form-group">
+        <label for="service">Service Interested In</label>
+        <select id="service" required>
+          <option value="" disabled selected>Select a service</option>
+          <option value="web">Web Design & Development</option>
+          <option value="seo">SEO & Analytics</option>
+          <option value="branding">Logo / Branding</option>
+          <option value="marketing">Digital Marketing</option>
+        </select>
+      </div>
+      <!-- <div class="form-group">
+        <label for="budget">Estimated Budget</label>
+        <select id="budget" required>
+          <option value="" disabled selected>Select budget</option>
+          <option value="5k">Under ₹5,000</option>
+          <option value="5k-10k">₹5,000 - ₹10,000</option>
+          <option value="10k-25k">₹10,000 - ₹25,000</option>
+          <option value="25k+">₹25,000+</option>
+        </select>
+      </div> -->
+      <div class="form-group">
+        <label for="message">Project Description</label>
+        <textarea id="message" rows="4" placeholder="Tell us about your project..." required></textarea>
+      </div>
+      <button class="btn" type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div class="popup" id="successPopup">
+    <h3>Thank you! 🎉</h3>
+    <p>Your message has been sent successfully. We’ll get back to you soon!</p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const popup = document.getElementById('successPopup');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      popup.classList.add('active');
+      form.reset();
+    });
+
+    function closePopup() {
+      popup.classList.remove('active');
+    }
+  </script>
+</body>
+</html>

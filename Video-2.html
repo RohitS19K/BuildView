@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BuildView — The Creative Flow</title>
+    <meta name="description" content="BuildView — Professional video editing and motion graphics. Trusted by Unacademy." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #070914;
+            --bg-soft: #101223;
+            --glass-bg: rgba(22, 25, 48, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f4f8;
+            --text-secondary: #a8b2d1;
+            --primary-pink: #ff0080;
+            --primary-purple: #7928ca;
+            --primary-gradient: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 25% 25%, rgba(121, 40, 202, 0.2), transparent 35%),
+                              radial-gradient(circle at 75% 75%, rgba(255, 0, 128, 0.15), transparent 40%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Animated Gradient Text */
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* Main Container */
+        .page-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* --- HEADER --- */
+        .main-header {
+            position: sticky;
+            top: 16px;
+            margin: 16px auto;
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo .mark {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+         .logo .mark img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .logo-text h3 {
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            background: var(--primary-gradient);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 4px 10px rgba(121, 40, 202, 0.4);
+        }
+        
+        /* --- TIMELINE WRAPPER --- */
+        .timeline-wrapper {
+            position: relative;
+            padding-left: 40px; /* Space for timeline */
+        }
+        .timeline-wrapper::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-image: linear-gradient(to bottom, var(--primary-purple) 0%, var(--primary-pink) 100%);
+            opacity: 0.1;
+        }
+        
+        .timeline-section {
+            padding: 80px 0;
+            position: relative;
+        }
+        .timeline-section::before {
+            content: '';
+            position: absolute;
+            left: -35px; /* (40px padding - 5px) */
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            background: var(--bg-soft);
+            border: 2px solid var(--text-secondary);
+            opacity: 0.3;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+        .timeline-section.is-visible::before {
+            border-color: var(--primary-pink);
+            transform: scale(1.2);
+            opacity: 1;
+            box-shadow: 0 0 15px var(--primary-pink);
+        }
+
+        /* Section Headings */
+        .section-header {
+            margin-bottom: 40px;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            text-align: center;
+            padding: 120px 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero-section::before { top: 0; }
+        .hero-section h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            max-width: 800px;
+            margin-bottom: 24px;
+        }
+        .hero-section .lead {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin-bottom: 32px;
+        }
+        .hero-section .clients {
+            margin-top: 60px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            filter: grayscale(1) brightness(1.5);
+            opacity: 0.6;
+        }
+        .hero-section .clients img {
+            height: 30px;
+        }
+
+        /* Glass Card Style */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: var(--radius-lg);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .glass-card:hover::after {
+            opacity: 0.05;
+        }
+        
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .service-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .portfolio-thumb {
+            aspect-ratio: 16 / 10;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+        .portfolio-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .portfolio-thumb:hover img {
+            transform: scale(1.05);
+        }
+        .portfolio-thumb .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 10%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .portfolio-thumb:hover .overlay {
+            opacity: 1;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .step-card {
+            text-align: center;
+        }
+        .step-card .step-number {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 16px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .step-card h4 { font-size: 1.25rem; margin-bottom: 8px; }
+        .step-card p { color: var(--text-secondary); }
+        
+        /* Pricing Plans */
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            align-items: center;
+        }
+        .plan-card.highlighted {
+            transform: scale(1.05);
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.3);
+        }
+        .plan-card ul {
+            list-style: none;
+            margin: 24px 0;
+        }
+        .plan-card li {
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+        }
+        .plan-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-pink);
+        }
+
+        /* CTA Section */
+        .cta-section { text-align: center; }
+        
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .portfolio-grid, .process-steps, .pricing-plans {
+                grid-template-columns: 1fr;
+            }
+            .plan-card.highlighted { transform: scale(1); }
+        }
+        @media (max-width: 768px) {
+            .timeline-wrapper { padding-left: 20px; }
+            .timeline-wrapper::before { left: 0; }
+            .timeline-section::before { left: -6px; }
+            .section-header h2 { font-size: 2rem; }
+            .main-header {
+                flex-direction: column;
+                gap: 12px;
+                position: static;
+                margin-top: 0;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <header class="main-header">
+            <a href="#" class="logo">
+                <div class="mark"><img src="/Images/Buildview.png" alt="B"></div>
+                <div class="logo-text">
+                    <h3>BuildView</h3>
+                    <p>Creative Studio</p>
+                </div>
+            </a>
+            <nav>
+                <a href="#contact" class="btn">Get a Quote</a>
+            </nav>
+        </header>
+
+        <main class="timeline-wrapper">
+            <section class="timeline-section hero-section" id="hero">
+                <h1 class="fade-in">Transform Ideas Into <span class="gradient-text">Stunning Visuals</span></h1>
+                <p class="lead fade-in">Professional video editing, motion graphics, and web solutions designed to captivate your audience. Trusted by top creators and educators.</p>
+                <a href="#contact" class="btn fade-in">Start Your Project</a>
+                <div class="clients fade-in">
+                    <p style="font-size: 0.8rem; letter-spacing: 1px; margin-right: 16px; color: var(--text-secondary);">TRUSTED BY</p>
+                    <img src="/Images/Unacademy.png" alt="Unacademy" />
+                    <img src="/Images/Wipeout.svg" alt="Wipeout" />
+                </div>
+            </section>
+            
+            <section class="timeline-section" id="services">
+                <div class="section-header fade-in">
+                    <h2>Our Services</h2>
+                    <p>We provide the creative and technical expertise to bring your vision to life across multiple platforms.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card glass-card fade-in">
+                        <h4>Video Editing</h4>
+                        <p>From short-form social clips to long-form educational content, we craft narratives that engage and retain viewers.</p>
+                    </div>
+                    <div class="service-card glass-card fade-in">
+                        <h4>Motion Graphics</h4>
+                        <p>Branded intros, animated diagrams, lower-thirds, and visual effects that elevate your content's production value.</p>
+                    </div>
+                     <div class="service-card glass-card fade-in">
+                        <h4>Web & Branding</h4>
+                        <p>Creating compelling brand identities and high-performance websites that convert visitors into customers.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="portfolio">
+                <div class="section-header fade-in">
+                    <h2>Our Work</h2>
+                    <p>A selection of recent projects that showcase our commitment to quality and creativity.</p>
+                </div>
+                <div class="portfolio-grid">
+                    <a href="#" class="portfolio-thumb glass-card fade-in"><img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2874&auto=format&fit=crop" alt="Project 1">
+                       <div class="overlay"><strong>Corporate Brand Film</strong></div>
+                    </a>
+                    <a href="#" class="portfolio-thumb glass-card fade-in"><img src="https://images.unsplash.com/photo-1593720219276-0b1eacd0aef4?q=80&w=2960&auto=format&fit=crop" alt="Project 2">
+                        <div class="overlay"><strong>Creator YouTube Series</strong></div>
+                    </a>
+                    <a href="#" class="portfolio-thumb glass-card fade-in"><img src="https://images.unsplash.com/photo-1611605698335-8b1569810432?q=80&w=2874&auto=format&fit=crop" alt="Project 3">
+                        <div class="overlay"><strong>Social Media Ad Campaign</strong></div>
+                    </a>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="process">
+                <div class="section-header fade-in">
+                    <h2>Our Process</h2>
+                    <p>We've streamlined our workflow into three simple steps to ensure clarity, speed, and exceptional results.</p>
+                </div>
+                <div class="process-steps">
+                    <div class="step-card glass-card fade-in">
+                        <div class="step-number">01</div>
+                        <h4>Brief & Upload</h4>
+                        <p>Share your vision, goals, and raw footage through our secure client portal.</p>
+                    </div>
+                     <div class="step-card glass-card fade-in">
+                        <div class="step-number">02</div>
+                        <h4>Create & Review</h4>
+                        <p>We get to work. You'll receive a first draft for feedback and revisions.</p>
+                    </div>
+                     <div class="step-card glass-card fade-in">
+                        <div class="step-number">03</div>
+                        <h4>Approve & Deliver</h4>
+                        <p>Once you're happy, we deliver the final files in all the formats you need.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="pricing">
+                 <div class="section-header fade-in">
+                    <h2>Flexible Pricing</h2>
+                    <p>Choose a plan that fits your needs, from one-off projects to ongoing creative partnerships.</p>
+                </div>
+                <div class="pricing-plans">
+                    <div class="plan-card glass-card fade-in">
+                        <h3>Starter</h3>
+                        <p class="price" style="font-size: 2.5rem; font-weight: 700; margin: 16px 0;">₹2,500</p>
+                        <ul>
+                            <li>One-off video</li>
+                            <li>Up to 2 mins</li>
+                            <li>Basic Edits</li>
+                        </ul>
+                        <a href="#" class="btn" style="width: 100%; text-align: center;">Choose Plan</a>
+                    </div>
+                     <div class="plan-card glass-card highlighted fade-in">
+                        <h3>Monthly</h3>
+                        <p class="price" style="font-size: 2.5rem; font-weight: 700; margin: 16px 0;">₹45,000</p>
+                        <ul>
+                            <li>Unlimited Edits*</li>
+                            <li>Dedicated Editor</li>
+                            <li>Priority Support</li>
+                        </ul>
+                        <a href="#" class="btn" style="width: 100%; text-align: center;">Choose Plan</a>
+                    </div>
+                     <div class="plan-card glass-card fade-in">
+                        <h3>Enterprise</h3>
+                        <p class="price" style="font-size: 2.5rem; font-weight: 700; margin: 16px 0;">Custom</p>
+                        <ul>
+                            <li>Custom Workflow</li>
+                            <li>Team Access</li>
+                            <li>White-Glove Service</li>
+                        </ul>
+                        <a href="#" class="btn" style="width: 100%; text-align: center;">Contact Us</a>
+                    </div>
+                </div>
+            </section>
+
+             <section class="timeline-section cta-section" id="contact">
+                 <div class="glass-card fade-in">
+                     <div class="section-header">
+                        <h2 class="gradient-text">Ready to Build Your Vision?</h2>
+                        <p>Let's talk about your next project. Tell us what you need and we'll get back to you within 24 hours with a custom quote.</p>
+                    </div>
+                    <a href="#" class="btn">Start a Conversation</a>
+                 </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p>© 2025 BuildView Creative Studio. All Rights Reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if ('IntersectionObserver' in window) {
+                const elementsToAnimate = document.querySelectorAll('.fade-in, .timeline-section');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                elementsToAnimate.forEach(element => {
+                    observer.observe(element);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BuildView — Premier SEO & Marketing Solutions</title>
+    <meta name="description" content="A fusion of data-driven strategy and creative execution to dominate search results and drive real growth." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CORE STYLES (Unchanged) --- */
+        :root {
+            --bg-dark: #070914;
+            --bg-soft: #101223;
+            --glass-bg: rgba(22, 25, 48, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f4f8;
+            --text-secondary: #a8b2d1;
+            --primary-pink: #ff0080;
+            --primary-purple: #7928ca;
+            --primary-gradient: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 25% 25%, rgba(121, 40, 202, 0.2), transparent 35%),
+                              radial-gradient(circle at 75% 75%, rgba(255, 0, 128, 0.15), transparent 40%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; text-fill-color: transparent;
+        }
+        .page-container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+        .main-header {
+            position: sticky; top: 16px; margin: 16px auto; z-index: 100;
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border); border-radius: var(--radius-md);
+            padding: 12px 24px; display: flex; align-items: center; justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--text-primary); }
+        .logo .mark {
+            width: 44px; height: 44px; background: var(--primary-gradient);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+        }
+        .logo .mark img { width: 80%; height: 80%; object-fit: contain; }
+        .logo-text h3 { font-size: 1.25rem; line-height: 1; }
+        .logo-text p { font-size: 0.75rem; color: var(--text-secondary); }
+        .btn {
+            background: var(--primary-gradient); color: var(--text-primary); padding: 12px 24px;
+            border-radius: 8px; font-weight: 600; text-decoration: none;
+            border: none; cursor: pointer; transition: all 0.3s ease; display: inline-block;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 4px 10px rgba(121, 40, 202, 0.4);
+        }
+        .timeline-wrapper { position: relative; padding-left: 40px; }
+        .timeline-wrapper::before {
+            content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
+            width: 2px; background-image: linear-gradient(to bottom, var(--primary-purple) 0%, var(--primary-pink) 100%);
+            opacity: 0.1;
+        }
+        .timeline-section { padding: 80px 0; position: relative; }
+        .timeline-section::before {
+            content: ''; position: absolute; left: -35px; top: 10px;
+            width: 12px; height: 12px; background: var(--bg-soft);
+            border: 2px solid var(--text-secondary); opacity: 0.3;
+            border-radius: 50%; transition: all 0.5s ease;
+        }
+        .timeline-section.is-visible::before {
+            border-color: var(--primary-pink); transform: scale(1.2);
+            opacity: 1; box-shadow: 0 0 15px var(--primary-pink);
+        }
+        .section-header { margin-bottom: 40px; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 8px; }
+        .section-header p { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; }
+        .main-footer {
+            text-align: center; padding: 40px 0; margin-top: 60px;
+            border-top: 1px solid var(--glass-border); color: var(--text-secondary);
+        }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* --- STYLES FOR COMBINED COMPONENTS --- */
+
+        /* Hero Section (Layout from D1, Visual inspired by D2) */
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px; padding: 40px 0; }
+        .hero-content h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+        .hero-content p { font-size: 1.1rem; color: var(--text-secondary); max-width: 500px; margin-bottom: 32px; }
+        .hero-visual .analytics-snippet {
+            background: var(--bg-soft); border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg); padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative; overflow: hidden;
+        }
+        .analytics-header { display: flex; justify-content: space-between; align-items: center; }
+        .analytics-header span { font-size: 1rem; font-weight: 600; }
+        .analytics-chart { display: flex; gap: 8px; align-items: flex-end; height: 150px; margin-top: 24px; border-bottom: 1px solid var(--glass-border); }
+        .chart-bar { flex: 1; background-color: var(--primary-purple); border-radius: 4px 4px 0 0; opacity: 0.5; }
+        .chart-bar.highlight { background: var(--primary-gradient); opacity: 1; }
+        .clients-bar {
+            margin-top: 40px; display: flex; gap: 30px; 
+            align-items: center; filter: grayscale(1) brightness(1.5); opacity: 0.6;
+        }
+        .clients-bar img { height: 28px; }
+
+        /* Services Accordion (from D1) */
+        .accordion { border-top: 1px solid var(--glass-border); }
+        .accordion-item { border-bottom: 1px solid var(--glass-border); }
+        .accordion-header { display: flex; justify-content: space-between; align-items: center; padding: 24px 16px; cursor: pointer; }
+        .accordion-header h4 { font-size: 1.5rem; font-weight: 600; transition: color 0.3s; }
+        .accordion-item.active .accordion-header h4, .accordion-header:hover h4 { color: var(--primary-pink); }
+        .accordion-icon { font-size: 1.5rem; transition: transform 0.4s ease; }
+        .accordion-item.active .accordion-icon { transform: rotate(45deg); }
+        .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out, padding 0.5s ease-out; }
+        .accordion-body p { padding: 0 16px 24px; color: var(--text-secondary); max-width: 700px; line-height: 1.7; }
+
+        /* Portfolio Tabs (from D1) */
+        .portfolio-tabs-layout {
+            display: grid; grid-template-columns: 30% 70%;
+            gap: 40px; background-color: var(--bg-soft);
+            padding: 32px; border-radius: var(--radius-lg);
+        }
+        .portfolio-nav { display: flex; flex-direction: column; }
+        .portfolio-nav-item {
+            font-size: 1.25rem; font-weight: 600; padding: 16px;
+            border-radius: var(--radius-md); cursor: pointer;
+            color: var(--text-secondary); transition: all 0.3s;
+        }
+        .portfolio-nav-item:hover { background-color: rgba(255,255,255,0.05); }
+        .portfolio-nav-item.active { color: var(--text-primary); background: var(--primary-gradient); }
+        .portfolio-content .portfolio-image {
+            width: 100%; aspect-ratio: 16/10; border-radius: var(--radius-md);
+            overflow: hidden; margin-bottom: 16px; background-color: var(--bg-dark);
+        }
+        .portfolio-content .portfolio-image img { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
+        .portfolio-content h4 { font-size: 1.2rem; }
+        .portfolio-content p { font-size: 0.95rem; color: var(--text-secondary); margin-top: 4px; }
+        .portfolio-item { display: none; }
+        .portfolio-item.active { display: block; }
+
+        /* Vertical Process List (from D2) */
+        .process-list { border-left: 2px solid var(--glass-border); padding-left: 40px; margin-left: -40px; }
+        .process-list-item { position: relative; padding-bottom: 40px; }
+        .process-list-item:last-child { padding-bottom: 0; }
+        .process-list-item::before { /* Dot on the line */
+            content: ''; position: absolute; left: -49px; top: 4px;
+            width: 14px; height: 14px;
+            background-color: var(--bg-soft);
+            border: 2px solid var(--primary-purple);
+            border-radius: 50%;
+        }
+        .process-list-item .step-number { font-size: 1rem; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; }
+        .process-list-item h4 { font-size: 1.5rem; margin-bottom: 12px; }
+        .process-list-item p { color: var(--text-secondary); max-width: 700px; }
+
+        /* Pricing Cards (from D2) */
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+        .pricing-card {
+            display: flex; flex-direction: column;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--glass-border); padding: 32px;
+            transition: all 0.3s ease; background-color: var(--bg-soft);
+            transform-style: preserve-3d;
+        }
+        .pricing-card.highlighted {
+            background-image: linear-gradient(160deg, rgba(121, 40, 202, 0.2), var(--bg-soft) 40%);
+            border-color: var(--primary-purple);
+        }
+        .pricing-card-header h3 { font-size: 1.5rem; font-weight: 600; }
+        .pricing-card-header .price { font-size: 2.5rem; font-weight: 700; margin: 8px 0; }
+        .pricing-card-header .price-note { font-size: 0.9rem; color: var(--text-secondary); }
+        .pricing-card ul { list-style: none; margin: 24px 0; flex-grow: 1; }
+        .pricing-card li { margin-bottom: 12px; padding-left: 28px; position: relative; }
+        .pricing-card li::before {
+            content: '✓'; position: absolute; left: 0; color: var(--primary-pink);
+        }
+        .pricing-card .btn { width: 100%; text-align: center; margin-top: 16px; }
+
+        /* Two-Column CTA Form (from D2) */
+        .cta-section-grid {
+            display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+            gap: 40px; background-color: var(--bg-soft);
+            padding: 40px; border-radius: var(--radius-lg);
+        }
+        .form-column .form-group { display: flex; flex-direction: column; gap: 16px; }
+        .form-column input {
+            background-color: var(--bg-dark); border: 1px solid var(--glass-border);
+            color: var(--text-primary); border-radius: 8px; padding: 14px; font-size: 1rem;
+        }
+        .form-column input:focus { border-color: var(--primary-pink); outline: none; }
+        .form-column .btn { width: 100%; text-align: center; padding: 14px; }
+
+        /* --- RESPONSIVE ADJUSTMENTS for combined styles --- */
+        @media (max-width: 900px) {
+            .hero-grid, .portfolio-tabs-layout, .cta-section-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; gap: 32px; }
+            .hero-content { text-align: center; }
+            .hero-content p { margin: 0 auto 32px auto; }
+            .clients-bar { justify-content: center; }
+        }
+        @media (max-width: 768px) {
+            .timeline-wrapper { padding-left: 20px; }
+            .timeline-wrapper::before { left: 0; }
+            .timeline-section::before { left: -6px; }
+            .section-header, .process-list { margin-left: -20px; text-align: left; }
+            .section-header p { margin: 0; }
+            .main-header { flex-direction: column; gap: 12px; position: static; margin-top: 0; border-radius: 0; }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <header class="main-header">
+            <a href="#" class="logo">
+                <div class="mark"><img src="/images/Buildview.png" alt="B"></div>
+                <div class="logo-text">
+                    <h3>BuildView</h3>
+                    <p>SEO & Marketing</p>
+                </div>
+            </a>
+            <nav><a href="#contact" class="btn">Get a Free Analysis</a></nav>
+        </header>
+
+        <main class="timeline-wrapper">
+            <section class="timeline-section" id="hero">
+                <div class="hero-grid">
+                    <div class="hero-content fade-in">
+                        <h1>Drive Organic Growth with <span class="gradient-text">Data-Driven SEO</span></h1>
+                        <p>We combine technical expertise, content strategy, and authority building to help you climb the ranks, increase visibility, and own the results.</p>
+                        <a href="#pricing" class="btn">View Our Plans</a>
+                         <div class="clients-bar">
+                            <p style="font-size: 0.8rem; letter-spacing: 1px; color: var(--text-secondary);">TRUSTED BY</p>
+                            <img src="/images/Unacademy.png" alt="Unacademy" />
+                            <img src="/images/Wipeout.svg" alt="Wipeout" />
+                        </div>
+                    </div>
+                    <div class="hero-visual fade-in">
+                        <div class="analytics-snippet" data-tilt>
+                            <div class="analytics-header"><span>Organic Traffic</span><span class="gradient-text" data-count="350">+0%</span></div>
+                            <div class="analytics-chart">
+                                <div class="chart-bar" style="height: 20%;"></div>
+                                <div class="chart-bar" style="height: 30%;"></div>
+                                <div class="chart-bar" style="height: 25%;"></div>
+                                <div class="chart-bar" style="height: 45%;"></div>
+                                <div class="chart-bar" style="height: 60%;"></div>
+                                <div class="chart-bar highlight" style="height: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="timeline-section" id="services">
+                <div class="section-header fade-in">
+                    <h2>A Foundation for Growth</h2>
+                    <p>Our SEO services are built on three core pillars designed to deliver sustainable, long-term success.</p>
+                </div>
+                <div class="accordion fade-in">
+                    <div class="accordion-item active">
+                        <div class="accordion-header"><h4>Technical SEO</h4><div class="accordion-icon">+</div></div>
+                        <div class="accordion-body"><p>We ensure your website is perfectly optimized for search engine crawlers. This includes improving site speed, implementing schema markup, ensuring mobile-friendliness, and fixing any crawl errors for a flawless technical foundation.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header"><h4>On-Page & Content Strategy</h4><div class="accordion-icon">+</div></div>
+                        <div class="accordion-body"><p>Content is king, but strategy is queen. We perform deep keyword research to create and optimize content that answers user intent, establishes topical authority, and is structured to rank for your most valuable keywords.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header"><h4>Off-Page & Link Building</h4><div class="accordion-icon">+</div></div>
+                        <div class="accordion-body"><p>We build your website's authority across the web through high-quality, relevant backlinks. Our white-hat outreach and digital PR strategies earn you links that search engines trust, boosting your domain rating and rankings.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="portfolio">
+                <div class="section-header fade-in">
+                    <h2>Proven Results</h2>
+                    <p>We don't just promise rankings; we deliver measurable growth. See how we've helped our clients succeed.</p>
+                </div>
+                <div class="portfolio-tabs-layout fade-in">
+                    <div class="portfolio-nav">
+                        <div class="portfolio-nav-item active" data-target="proj1" data-tilt>E-commerce Store</div>
+                        <div class="portfolio-nav-item" data-target="proj2" data-tilt>SaaS Platform</div>
+                        <div class="portfolio-nav-item" data-target="proj3" data-tilt>Local Service Business</div>
+                    </div>
+                    <div class="portfolio-content">
+                        <div id="proj1" class="portfolio-item active">
+                            <div class="portfolio-image"><img src="https://i.imgur.com/rS1ff37.png" alt="Graph showing traffic growth"></div>
+                            <h4>+350% Organic Traffic</h4><p>Increased organic traffic and revenue for a fashion e-commerce brand in 6 months.</p>
+                        </div>
+                        <div id="proj2" class="portfolio-item">
+                            <div class="portfolio-image"><img src="https://i.imgur.com/gKj3tqj.png" alt="Graph showing keyword ranking improvements"></div>
+                            <h4>From Page 5 to #1</h4><p>Ranked a B2B SaaS client #1 for 15 high-intent keywords, driving demo requests up by 80%.</p>
+                        </div>
+                        <div id="proj3" class="portfolio-item">
+                            <div class="portfolio-image"><img src="https://i.imgur.com/L1z0mDK.png" alt="Graph showing local map pack visibility"></div>
+                            <h4>Dominated Local Search</h4><p>Achieved top-3 map pack rankings for a multi-location dental practice across 5 cities.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="process">
+                <div class="section-header fade-in" style="text-align: center;">
+                    <h2>Our Transparent Process</h2>
+                    <p>A clear, collaborative, and data-driven path to achieving your SEO goals.</p>
+                </div>
+                <div class="process-list fade-in">
+                    <div class="process-list-item">
+                        <div class="step-number">STEP 01</div><h4>Audit & Discovery</h4><p>We begin with a deep dive into your website, competitors, and market landscape to build a comprehensive SEO audit and identify key opportunities for growth.</p>
+                    </div>
+                     <div class="process-list-item">
+                        <div class="step-number">STEP 02</div><h4>Strategy & Execution</h4><p>Based on our findings, we develop a custom, prioritized roadmap and get to work implementing technical fixes, optimizing content, and building your site's authority.</p>
+                    </div>
+                     <div class="process-list-item">
+                        <div class="step-number">STEP 03</div><h4>Analysis & Refinement</h4><p>SEO is a marathon. We provide transparent reports, analyze performance data, and continually refine our strategy to adapt to algorithm changes and capitalize on new opportunities.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="pricing">
+                <div class="section-header fade-in" style="text-align: center;">
+                    <h2>SEO Plans for Growth</h2>
+                    <p>Choose the right plan to fuel your growth, from foundational SEO to aggressive market domination.</p>
+                </div>
+                <div class="pricing-grid fade-in">
+                    <div class="pricing-card" data-tilt>
+                        <div class="pricing-card-header"><h3>Growth</h3><p class="price" data-count="30000">0</p><p class="price-note">per month</p></div>
+                        <ul><li>Keyword Tracking (50)</li><li>On-Page Optimization</li><li>Technical SEO Audit</li><li>Monthly Reporting</li></ul>
+                        <a href="#" class="btn">Choose Plan</a>
+                    </div>
+                    <div class="pricing-card highlighted" data-tilt>
+                        <div class="pricing-card-header"><h3>Pro</h3><p class="price" data-count="75000">0</p><p class="price-note">per month</p></div>
+                        <ul><li>Keyword Tracking (150)</li><li>Content Strategy & Briefs</li><li>Basic Link Building</li><li>Competitor Analysis</li></ul>
+                        <a href="#" class="btn">Choose Plan</a>
+                    </div>
+                    <div class="pricing-card" data-tilt>
+                        <div class="pricing-card-header"><h3>Enterprise</h3><p class="price">Custom</p><p class="price-note">per month</p></div>
+                        <ul><li>Unlimited Keywords</li><li>Advanced Link Building</li><li>Digital PR Campaigns</li><li>Dedicated Strategist</li></ul>
+                        <a href="#" class="btn">Contact Us</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="contact">
+                <div class="cta-section-grid fade-in">
+                     <div class="cta-text">
+                        <h2 style="font-size: 2rem;">Ready to Climb the Ranks?</h2>
+                        <p style="color: var(--text-secondary); line-height: 1.7; margin-top: 12px;">Your competitors aren't waiting, and neither should you. Fill out the form to get a free, no-obligation SEO analysis and a custom proposal tailored to your business goals.</p>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name">
+                            <input type="email" placeholder="Work Email">
+                            <input type="url" placeholder="Your Website URL">
+                            <button class="btn">Get My Free Analysis</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p>© 2025 BuildView Creative Studio. All Rights Reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // --- BASE INTERACTIVITY (Accordion, Tabs, Fade-in) ---
+
+            const observer = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 }) : null;
+
+            if(observer) {
+                const elementsToAnimate = document.querySelectorAll('.fade-in, .timeline-section');
+                elementsToAnimate.forEach(el => observer.observe(el));
+            }
+
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            if (accordionItems.length > 0) {
+                const firstAccordionBody = document.querySelector('.accordion-item.active .accordion-body');
+                if(firstAccordionBody) firstAccordionBody.style.maxHeight = firstAccordionBody.scrollHeight + "px";
+                
+                accordionItems.forEach(item => {
+                    item.querySelector('.accordion-header').addEventListener('click', () => {
+                        const isActive = item.classList.contains('active');
+                        accordionItems.forEach(i => {
+                            i.classList.remove('active');
+                            i.querySelector('.accordion-body').style.maxHeight = 0;
+                        });
+                        if (!isActive) {
+                            item.classList.add('active');
+                            const body = item.querySelector('.accordion-body');
+                            body.style.maxHeight = body.scrollHeight + "px";
+                        }
+                    });
+                });
+            }
+
+            const navItems = document.querySelectorAll('.portfolio-nav-item');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            if (navItems.length > 0) {
+                navItems.forEach(navItem => {
+                    navItem.addEventListener('click', () => {
+                        const targetId = navItem.getAttribute('data-target');
+                        navItems.forEach(item => item.classList.remove('active'));
+                        navItem.classList.add('active');
+                        portfolioItems.forEach(item => item.classList.remove('active'));
+                        const targetItem = document.getElementById(targetId);
+                        if (targetItem) targetItem.classList.add('active');
+                    });
+                });
+            }
+
+
+            // --- NEW INTERACTIVITY LAYER ---
+
+            // 1. Staggered Animation for Grids
+            document.querySelectorAll('.pricing-grid').forEach(grid => {
+                const items = grid.querySelectorAll('.pricing-card');
+                items.forEach((item, index) => {
+                    item.style.transitionDelay = `${index * 100}ms`;
+                });
+            });
+
+            // 2. Number Count-Up Animation
+            const countUpObserver = ('IntersectionObserver' in window) ? new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.getAttribute('data-count'), 10);
+                        const duration = 2000;
+                        let start = null;
+                        
+                        const step = (timestamp) => {
+                            if (!start) start = timestamp;
+                            const progress = Math.min((timestamp - start) / duration, 1);
+                            let currentNumber = Math.floor(progress * target);
+                            if (el.textContent.includes('%')) {
+                                el.textContent = `+${currentNumber}%`;
+                            } else {
+                                el.textContent = `₹${currentNumber.toLocaleString('en-IN')}`;
+                            }
+                            if (progress < 1) {
+                                window.requestAnimationFrame(step);
+                            } else {
+                                if (el.textContent.includes('%')) {
+                                     el.textContent = `+${target}%`;
+                                } else {
+                                    el.textContent = `₹${target.toLocaleString('en-IN')}`;
+                                }
+                            }
+                        };
+                        window.requestAnimationFrame(step);
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 }) : null;
+
+            if (countUpObserver) {
+                document.querySelectorAll('[data-count]').forEach(el => countUpObserver.observe(el));
+            }
+
+            // 3. 3D Tilt Effect on Cards
+            const tiltElements = document.querySelectorAll('[data-tilt]');
+            tiltElements.forEach(el => {
+                const intensity = 10;
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const rotateX = (intensity * (y - rect.height / 2)) / (rect.height / 2);
+                    const rotateY = -(intensity * (x - rect.width / 2)) / (rect.width / 2);
+                    el.style.transition = 'transform 0.1s ease-out';
+                    el.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+                el.addEventListener('mouseleave', () => {
+                    el.style.transition = 'transform 0.5s ease-in-out';
+                    el.style.transform = 'perspective(500px) rotateX(0) rotateY(0)';
+                });
+            });
+            
+             // 4. Interactive Shine Effect
+            const shineElement = document.querySelector('.analytics-snippet');
+            if (shineElement) {
+                shineElement.addEventListener('mousemove', e => {
+                    const rect = shineElement.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    shineElement.style.setProperty('--shine-x', `${x}px`);
+                    shineElement.style.setProperty('--shine-y', `${y}px`);
+                    shineElement.style.background = `radial-gradient(circle at var(--shine-x) var(--shine-y), rgba(255,255,255,0.08), transparent 40%), var(--bg-soft)`;
+                });
+                 shineElement.addEventListener('mouseleave', () => {
+                    shineElement.style.background = `var(--bg-soft)`;
+                });
+            }
+        });
+    </script>
+</body>
+</html>

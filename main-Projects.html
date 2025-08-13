@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Work | BuildView</title>
+    <meta name="description" content="A showcase of our finest work in web design, branding, video, and AI solutions." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #070914;
+            --bg-soft: #101223;
+            --glass-bg: rgba(22, 25, 48, 0.5);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f4f8;
+            --text-secondary: #a8b2d1;
+            --primary-pink: #ff0080;
+            --primary-purple: #7928ca;
+            --primary-gradient: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(121, 40, 202, 0.2), transparent 35%),
+                radial-gradient(circle at 75% 75%, rgba(255, 0, 128, 0.15), transparent 40%);
+        }
+
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .page-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            /* position: sticky; */
+            top: 16px;
+            margin: 16px auto;
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .logo .mark {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo .mark img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .logo-text h3 {
+            font-size: 1.25rem;
+            line-height: 1;
+            color: var(--text-primary);
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .main-nav .nav-links {
+             display: flex;
+             gap: 20px;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            background: var(--primary-gradient);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 4px 10px rgba(121, 40, 202, 0.4);
+        }
+        
+        /* --- PROJECTS PAGE HEADER --- */
+        .projects-header {
+            padding: 120px 0 80px 0;
+            text-align: center;
+        }
+        .projects-header h1 {
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: -0.03em;
+        }
+        .projects-header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        
+        /* --- INTERACTIVE FILTER --- */
+        .filter-nav {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 60px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 8px;
+            border-radius: 50px;
+            width: max-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .filter-pill {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            height: calc(100% - 16px);
+            background: var(--primary-gradient);
+            border-radius: 50px;
+            box-shadow: 0 0 15px rgba(255,0,128,0.4);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 1;
+        }
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem 1.75rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        .filter-btn.active {
+            color: var(--text-primary);
+        }
+
+        /* --- FEATURED PROJECT --- */
+        .featured-project {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 60px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+        .featured-project:hover {
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+        }
+        .featured-project .project-content { padding-right: 20px; }
+        .featured-project .project-category { font-size: 0.9rem; font-weight: 700; color: var(--primary-pink); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+        .featured-project h3 { font-size: 2.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; }
+        .featured-project p { color: var(--text-secondary); margin-bottom: 24px; line-height: 1.7; }
+        .featured-project .project-image { border-radius: var(--radius-md); overflow: hidden; }
+        .featured-project .project-image img { width: 100%; display: block; }
+        
+        /* --- MASONRY PROJECT GRID --- */
+        .project-grid-masonry {
+            column-count: 3;
+            column-gap: 24px;
+        }
+        .project-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 24px;
+            break-inside: avoid;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .project-card .project-image { overflow: hidden; }
+        .project-card .project-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease-out;
+        }
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+        .project-card .project-content { padding: 24px; }
+        .project-card h4 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .project-card .project-category {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        /* --- GRID/CARD ANIMATIONS --- */
+        .featured-project, .project-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+        }
+        .featured-project.visible, .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+        
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) {
+            .project-grid-masonry { column-count: 2; }
+            .featured-project { grid-template-columns: 1fr; }
+            .main-header {
+                 flex-direction: column;
+                 gap: 16px;
+            }
+        }
+        @media (max-width: 768px) {
+            .project-grid-masonry { column-count: 1; }
+            .filter-nav {
+                flex-wrap: wrap; /* Allow buttons to wrap */
+                width: 100%;
+                background: none;
+                border: none;
+                padding: 0;
+                gap: 12px;
+            }
+            .filter-pill { display: none; }
+            .filter-btn {
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                width: 100%; /* Make buttons full-width */
+            }
+            .filter-btn.active {
+                background: var(--primary-gradient);
+                color: var(--text-primary);
+                border-color: transparent;
+            }
+            .main-header {
+                position: static;
+                margin-top: 0;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+             .main-nav {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+            }
+            .main-nav .nav-links {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <header class="main-header">
+            <a href="main-page.html" class="logo">
+                <div class="mark"><img src="/Images/Buildview.png" alt="B"></div>
+                <div class="logo-text">
+                    <h3>BuildView</h3>
+                    <p>Creative Studio</p>
+                </div>
+            </a>
+            <nav class="main-nav">
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <!-- <a href="projects.html" class="active">Projects</a> -->
+                </div>
+                <a href="Contact.html" class="btn">Get in Touch</a>
+            </nav>
+        </header>
+
+        <main>
+            <header class="projects-header">
+                <h1>Our Finest Work</h1>
+                <p>A showcase of our collaborations with ambitious brands, from innovative startups to established industry leaders.</p>
+            </header>
+
+            <section>
+                <nav class="filter-nav">
+                    <span class="filter-pill"></span>
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="web-design">Web Design</button>
+                    <button class="filter-btn" data-filter="branding">Branding</button>
+                    <button class="filter-btn" data-filter="video">Video & AI</button>
+                </nav>
+
+                <div class="featured-project" data-category="web-design">
+                    <div class="project-content">
+                        <div class="project-category">FEATURED PROJECT • WEB DESIGN</div>
+                        <h3>NextGen SaaS Platform</h3>
+                        <p>A responsive, high-performance website for a leading AI startup, focusing on user onboarding and conversion. We delivered a complete design system and a blazing-fast front-end.</p>
+                        <a href="#" class="btn">View Case Study</a>
+                    </div>
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1559028006-44d08a52a492?q=80&w=800" alt="Tech Startup Website">
+                    </div>
+                </div>
+
+                <div class="project-grid-masonry">
+                    <a href="#" class="project-card" data-category="branding">
+                        <div class="project-image"><img src="https://images.unsplash.com/photo-1557825835-b4527f242af7?q=80&w=600" alt="E-commerce Brand Identity"></div>
+                        <div class="project-content">
+                            <h4>Aura Cosmetics</h4>
+                            <p class="project-category">Branding</p>
+                        </div>
+                    </a>
+                    <a href="#" class="project-card" data-category="video">
+                        <div class="project-image"><img src="https://images.unsplash.com/photo-1516253593875-bd7ba0125f21?q=80&w=600" alt="Promotional Video"></div>
+                        <div class="project-content">
+                            <h4>Quantum Leap Promo</h4>
+                            <p class="project-category">Video & AI</p>
+                        </div>
+                    </a>
+                    <a href="#" class="project-card" data-category="web-design">
+                        <div class="project-image"><img src="https://images.unsplash.com/photo-1600585152220-088258f84168?q=80&w=600" alt="Real Estate Website"></div>
+                        <div class="project-content">
+                            <h4>Skyline Properties</h4>
+                            <p class="project-category">Web Design</p>
+                        </div>
+                    </a>
+                    <a href="#" class="project-card" data-category="branding">
+                        <div class="project-image"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=600" alt="Corporate Rebranding"></div>
+                        <div class="project-content">
+                            <h4>Innovate Corp</h4>
+                            <p class="project-category">Branding</p>
+                        </div>
+                    </a>
+                    <a href="#" class="project-card" data-category="video">
+                        <div class="project-image"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=600" alt="Social Media Campaign"></div>
+                        <div class="project-content">
+                            <h4>Connect Social App</h4>
+                            <p class="project-category">Video & AI</p>
+                        </div>
+                    </a>
+                     <a href="#" class="project-card" data-category="web-design">
+                        <div class="project-image"><img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=600" alt="Portfolio Website"></div>
+                        <div class="project-content">
+                            <h4>Creative Portfolio</h4>
+                            <p class="project-category">Web Design</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p>© 2025 BuildView Creative Studio. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card, .featured-project');
+            const pill = document.querySelector('.filter-pill');
+            const filterNav = document.querySelector('.filter-nav');
+
+            // --- Staggered Scroll Animation ---
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            // A small delay makes the staggered effect smoother
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, 100);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                projectCards.forEach(card => observer.observe(card));
+            } else {
+                // Fallback for older browsers
+                projectCards.forEach(card => card.classList.add('visible'));
+            }
+
+
+            // --- Filter Pill and Logic ---
+            function movePill(target) {
+                if (pill && window.innerWidth > 768) { // Only move pill on desktop
+                     const navRect = filterNav.getBoundingClientRect();
+                     const targetRect = target.getBoundingClientRect();
+                     pill.style.width = `${target.offsetWidth}px`;
+                     pill.style.left = `${targetRect.left - navRect.left}px`;
+                }
+            }
+
+            // Initial pill position
+            const initialActive = document.querySelector('.filter-btn.active');
+            if (initialActive) {
+                // Use a small timeout to ensure layout is calculated
+                setTimeout(() => movePill(initialActive), 50);
+            }
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    movePill(button);
+
+                    const filter = button.getAttribute('data-filter');
+                    
+                    projectCards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        const isFeatured = card.classList.contains('featured-project');
+                        
+                        // On 'all', featured project shows if its category is also visible or just always
+                        const matchesFilter = filter === 'all' || category === filter;
+                        
+                        if (matchesFilter) {
+                           card.style.display = isFeatured ? 'grid' : 'inline-block';
+                        } else {
+                           card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Recalculate pill on window resize
+            window.addEventListener('resize', () => {
+                 const currentActive = document.querySelector('.filter-btn.active');
+                 if(currentActive) movePill(currentActive);
+            });
+        });
+    </script>
+</body>
+
+</html>

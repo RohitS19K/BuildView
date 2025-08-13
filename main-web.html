@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BuildView — Web Design & Development</title>
+    <meta name="description" content="BuildView — Professional web design, development, and e-commerce solutions. Trusted by Unacademy." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CORE STYLES (Unchanged) --- */
+        :root {
+            --bg-dark: #070914;
+            --bg-soft: #101223;
+            --glass-bg: rgba(22, 25, 48, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f4f8;
+            --text-secondary: #a8b2d1;
+            --primary-pink: #ff0080;
+            --primary-purple: #7928ca;
+            --primary-gradient: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 25% 25%, rgba(121, 40, 202, 0.2), transparent 35%),
+                              radial-gradient(circle at 75% 75%, rgba(255, 0, 128, 0.15), transparent 40%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; text-fill-color: transparent;
+        }
+        .page-container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+        .main-header {
+            position: sticky; top: 16px; margin: 16px auto; z-index: 100;
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border); border-radius: var(--radius-md);
+            padding: 12px 24px; display: flex; align-items: center; justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--text-primary); }
+        .logo .mark {
+            width: 44px; height: 44px; background: var(--primary-gradient);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+        }
+        .logo .mark img { width: 80%; height: 80%; object-fit: contain; }
+        .logo-text h3 { font-size: 1.25rem; line-height: 1; }
+        .logo-text p { font-size: 0.75rem; color: var(--text-secondary); }
+        .btn {
+            background: var(--primary-gradient); color: var(--text-primary); padding: 12px 24px;
+            border-radius: 8px; font-weight: 600; text-decoration: none;
+            border: none; cursor: pointer; transition: all 0.3s ease; display: inline-block;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 4px 10px rgba(121, 40, 202, 0.4);
+        }
+        .timeline-wrapper { position: relative; padding-left: 40px; }
+        .timeline-wrapper::before {
+            content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
+            width: 2px; background-image: linear-gradient(to bottom, var(--primary-purple) 0%, var(--primary-pink) 100%);
+            opacity: 0.1;
+        }
+        .timeline-section { padding: 80px 0; position: relative; }
+        .timeline-section::before {
+            content: ''; position: absolute; left: -35px; top: 10px;
+            width: 12px; height: 12px; background: var(--bg-soft);
+            border: 2px solid var(--text-secondary); opacity: 0.3;
+            border-radius: 50%; transition: all 0.5s ease;
+        }
+        .timeline-section.is-visible::before {
+            border-color: var(--primary-pink); transform: scale(1.2);
+            opacity: 1; box-shadow: 0 0 15px var(--primary-pink);
+        }
+        .section-header { margin-bottom: 40px; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 8px; }
+        .section-header p { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; }
+        .main-footer {
+            text-align: center; padding: 40px 0; margin-top: 60px;
+            border-top: 1px solid var(--glass-border); color: var(--text-secondary);
+        }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* --- NEW REDESIGNED STYLES --- */
+
+        /* New Hero Section */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 40px;
+            padding: 40px 0;
+        }
+        .hero-content h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+        .hero-content p { font-size: 1.1rem; color: var(--text-secondary); max-width: 500px; margin-bottom: 32px; }
+        .hero-visual .code-snippet {
+            background: var(--bg-soft); border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md); padding: 24px; font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem; white-space: pre; overflow: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .code-snippet .c-purple { color: var(--primary-purple); }
+        .code-snippet .c-pink { color: var(--primary-pink); }
+        .code-snippet .c-gray { color: var(--text-secondary); opacity: 0.6; }
+        .clients-bar {
+            margin-top: 40px; text-align: center;
+            display: flex; gap: 30px; align-items: center; justify-content: center;
+            filter: grayscale(1) brightness(1.5); opacity: 0.6;
+        }
+        .clients-bar img { height: 28px; }
+
+        /* New Services Accordion */
+        .accordion { border-top: 1px solid var(--glass-border); }
+        .accordion-item { border-bottom: 1px solid var(--glass-border); }
+        .accordion-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 16px; cursor: pointer;
+        }
+        .accordion-header h4 { font-size: 1.5rem; font-weight: 600; transition: color 0.3s; }
+        .accordion-item.active .accordion-header h4, .accordion-header:hover h4 { color: var(--primary-pink); }
+        .accordion-icon { font-size: 1.5rem; transition: transform 0.4s ease; }
+        .accordion-item.active .accordion-icon { transform: rotate(45deg); }
+        .accordion-body {
+            max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+        }
+        .accordion-body p { padding: 0 16px 24px; color: var(--text-secondary); max-width: 700px; line-height: 1.7; }
+
+        /* New Portfolio Tabs */
+        .portfolio-tabs-layout {
+            display: grid; grid-template-columns: 30% 70%;
+            gap: 40px; background-color: var(--bg-soft);
+            padding: 32px; border-radius: var(--radius-lg);
+        }
+        .portfolio-nav { display: flex; flex-direction: column; }
+        .portfolio-nav-item {
+            font-size: 1.25rem; font-weight: 600; padding: 16px;
+            border-radius: var(--radius-md); cursor: pointer;
+            color: var(--text-secondary); transition: all 0.3s;
+        }
+        .portfolio-nav-item:hover { background-color: rgba(255,255,255,0.05); }
+        .portfolio-nav-item.active { color: var(--text-primary); background: var(--primary-gradient); }
+        .portfolio-content .portfolio-image {
+            width: 100%; aspect-ratio: 16/10; border-radius: var(--radius-md);
+            overflow: hidden; margin-bottom: 16px;
+        }
+        .portfolio-content .portfolio-image img { width: 100%; height: 100%; object-fit: cover; }
+        .portfolio-content h4 { font-size: 1.2rem; }
+        .portfolio-content p { font-size: 0.95rem; color: var(--text-secondary); margin-top: 4px; }
+
+        /* New Process Flow */
+        .process-flow { display: flex; gap: 24px; }
+        .process-step {
+            flex: 1; background: var(--bg-soft); padding: 24px;
+            border-radius: var(--radius-lg); border: 1px solid var(--glass-border);
+            text-align: left; position: relative;
+        }
+        .process-step .step-number {
+            font-size: 3rem; font-weight: 800; color: var(--glass-border); line-height: 1;
+        }
+        .process-step h4 { font-size: 1.25rem; margin: 12px 0 8px 0; }
+        .process-step p { color: var(--text-secondary); }
+
+        /* New Pricing Cards */
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+        .pricing-card {
+            display: flex; flex-direction: column;
+            background-color: var(--bg-soft); border-radius: var(--radius-lg);
+            border: 1px solid var(--glass-border); padding: 32px;
+            transition: all 0.3s ease;
+        }
+        .pricing-card.highlighted {
+            border-image: var(--primary-gradient) 1;
+            box-shadow: 0 0 40px rgba(121, 40, 202, 0.3);
+            transform: translateY(-10px);
+        }
+        .pricing-card-header h3 { font-size: 1.5rem; font-weight: 600; }
+        .pricing-card-header .price { font-size: 2.5rem; font-weight: 700; margin: 16px 0; }
+        .pricing-card ul { list-style: none; margin: 24px 0; flex-grow: 1; }
+        .pricing-card li { margin-bottom: 12px; padding-left: 28px; position: relative; }
+        .pricing-card li::before {
+            content: '✓'; position: absolute; left: 0; color: var(--primary-pink);
+        }
+        .pricing-card .btn { width: 100%; text-align: center; }
+
+        /* New CTA Form */
+        .cta-inline-form {
+            background-color: var(--bg-soft); border: 1px solid var(--glass-border);
+            padding: 40px; border-radius: var(--radius-lg); text-align: center;
+        }
+        .cta-inline-form h2 { margin-bottom: 16px; }
+        .form-group { display: flex; justify-content: center; gap: 10px; margin-top: 32px; }
+        .form-group input {
+            background-color: var(--bg-dark); border: 1px solid var(--glass-border);
+            color: var(--text-primary); border-radius: 8px; padding: 14px;
+            width: 100%; max-width: 350px; font-size: 1rem;
+        }
+        .form-group input:focus { border-color: var(--primary-pink); outline: none; }
+
+        /* --- RESPONSIVE ADJUSTMENTS for new styles --- */
+        @media (max-width: 900px) {
+            .hero-grid, .portfolio-tabs-layout { grid-template-columns: 1fr; }
+            .process-flow, .pricing-grid { flex-direction: column; }
+            .pricing-card.highlighted { transform: translateY(0); }
+            .hero-content { text-align: center; }
+            .hero-content p { margin-left: auto; margin-right: auto; }
+            .hero-visual { display: none; } /* Hide code snippet on smaller screens for simplicity */
+        }
+        @media (max-width: 768px) {
+            .timeline-wrapper { padding-left: 20px; }
+            .timeline-wrapper::before { left: 0; }
+            .timeline-section::before { left: -6px; }
+            .section-header h2 { font-size: 2rem; }
+            .main-header { flex-direction: column; gap: 12px; position: static; margin-top: 0; border-radius: 0; }
+            .form-group { flex-direction: column; }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <header class="main-header">
+            <a href="#" class="logo">
+                <div class="mark"><img src="/Images/Buildview.png" alt="B"></div>
+                <div class="logo-text">
+                    <h3>BuildView</h3>
+                    <p>Web Solutions</p>
+                </div>
+            </a>
+            <nav><a href="#contact" class="btn">Get a Quote</a></nav>
+        </header>
+
+        <main class="timeline-wrapper">
+            <section class="timeline-section" id="hero">
+                <div class="hero-grid">
+                    <div class="hero-content fade-in">
+                        <h1>Build Digital Experiences That <span class="gradient-text">Perform & Inspire</span></h1>
+                        <p>High-performance websites and applications, from sleek landing pages to complex e-commerce platforms. Crafted with purpose and precision.</p>
+                        <a href="#contact" class="btn">Start Your Project</a>
+                    </div>
+                    <div class="hero-visual fade-in">
+                        <div class="code-snippet">
+<span class="c-purple">const</span> name = <span class="c-pink">'BuildView'</span>;
+<span class="c-gray">// Crafting pixel-perfect web solutions</span>
+
+<span class="c-purple">function</span> createSite( <span class="c-text-secondary">idea</span> ) {
+  <span class="c-purple">if</span> (idea.isValid) {
+    <span class="c-purple">return</span> <span class="c-pink">`🚀 Launching ${idea.name}`</span>;
+  }
+}
+                        </div>
+                    </div>
+                </div>
+                <div class="clients-bar fade-in">
+                    <p style="font-size: 0.8rem; letter-spacing: 1px; color: var(--text-secondary);">TRUSTED BY</p>
+                    <img src="/Images/Unacademy.png" alt="Unacademy" />
+                    <img src="/Images/Wipeout.svg" alt="Wipeout" />
+                </div>
+            </section>
+            
+            <section class="timeline-section" id="services">
+                <div class="section-header fade-in">
+                    <h2>Our Web Expertise</h2>
+                    <p>We provide the strategic, creative, and technical expertise to build a powerful online presence for your brand.</p>
+                </div>
+                <div class="accordion fade-in">
+                    <div class="accordion-item active">
+                        <div class="accordion-header"><h4>UI/UX Design</h4><div class="accordion-icon">+</div></div>
+                        <div class="accordion-body"><p>We start with a deep dive into user behavior to craft intuitive, engaging interfaces. Our design process focuses on creating a seamless user journey that is both beautiful and functional, ensuring high conversion and user satisfaction.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header"><h4>Front-End Development</h4><div class="accordion-icon">+</div></div>
+                        <div class="accordion-body"><p>Our developers bring designs to life with clean, efficient, and responsive code. Using modern frameworks like React and Vue.js, we build fast, accessible, and pixel-perfect websites that work flawlessly on any device.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header"><h4>CMS & Backend</h4><div class="accordion-icon">+</div></div>
+                        <div class="accordion-body"><p>We empower you to manage your content effortlessly. We specialize in building robust backends and integrating powerful Content Management Systems like Webflow, Sanity, or Shopify, tailored to your specific business needs.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="portfolio">
+                <div class="section-header fade-in">
+                    <h2>Our Work</h2>
+                    <p>A selection of recent web projects that showcase our commitment to quality and modern design standards.</p>
+                </div>
+                <div class="portfolio-tabs-layout fade-in">
+                    <div class="portfolio-nav">
+                        <div class="portfolio-nav-item active" data-target="proj1">E-commerce Platform</div>
+                        <div class="portfolio-nav-item" data-target="proj2">SaaS UI/UX Design</div>
+                        <div class="portfolio-nav-item" data-target="proj3">Corporate Marketing Site</div>
+                    </div>
+                    <div class="portfolio-content">
+                        <div id="proj1" class="portfolio-item active">
+                            <div class="portfolio-image"><img src="https://images.unsplash.com/photo-1559028006-44d08a52a492?q=80&w=2960&auto=format&fit=crop" alt="E-commerce Website"></div>
+                            <h4>Aura Cosmetics</h4><p>A full-featured e-commerce site with custom checkout and product filtering.</p>
+                        </div>
+                        <div id="proj2" class="portfolio-item">
+                            <div class="portfolio-image"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2960&auto=format&fit=crop" alt="SaaS Dashboard"></div>
+                            <h4>Innovate SaaS</h4><p>Complete UI/UX overhaul for a data analytics dashboard, improving usability by 40%.</p>
+                        </div>
+                        <div id="proj3" class="portfolio-item">
+                            <div class="portfolio-image"><img src="https://images.unsplash.com/photo-1586992994968-074a35de5a47?q=80&w=2874&auto=format&fit=crop" alt="Marketing Website"></div>
+                            <h4>Quantum Corp</h4><p>A sleek, modern marketing website to showcase corporate services and generate leads.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="process">
+                <div class="section-header fade-in">
+                    <h2>Our Development Process</h2>
+                    <p>We've refined our workflow to ensure transparency, collaboration, and a final product that exceeds expectations.</p>
+                </div>
+                <div class="process-flow fade-in">
+                    <div class="process-step">
+                        <div class="step-number">01</div><h4>Discover & Strategize</h4><p>We dive deep into your goals, audience, and market to build a comprehensive project roadmap.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">02</div><h4>Design & Develop</h4><p>Our team designs, develops, and rigorously tests your website in a transparent, iterative cycle.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">03</div><h4>Launch & Support</h4><p>We handle a smooth deployment and provide ongoing support to ensure your site's peak performance.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="pricing">
+                <div class="section-header fade-in">
+                    <h2>Website Packages</h2>
+                    <p>Choose a plan that matches your ambition, from a simple online presence to a full-featured custom platform.</p>
+                </div>
+                <div class="pricing-grid fade-in">
+                    <div class="pricing-card">
+                        <div class="pricing-card-header"><h3>Basic Site</h3><p class="price">₹25,000</p></div>
+                        <ul>
+                            <li>Up to 5 Pages</li><li>Responsive Design</li><li>Basic SEO Setup</li><li>Contact Form</li>
+                        </ul>
+                        <a href="#" class="btn">Choose Plan</a>
+                    </div>
+                    <div class="pricing-card highlighted">
+                        <div class="pricing-card-header"><h3>Business Pro</h3><p class="price">₹95,000</p></div>
+                        <ul>
+                            <li>Up to 15 Pages</li><li>CMS Integration</li><li>Advanced SEO & Analytics</li><li>Blog Setup</li>
+                        </ul>
+                        <a href="#" class="btn">Choose Plan</a>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="pricing-card-header"><h3>Enterprise</h3><p class="price">Custom</p></div>
+                        <ul>
+                            <li>Custom Web App</li><li>E-commerce / APIs</li><li>Ongoing Maintenance</li><li>Priority Support</li>
+                        </ul>
+                        <a href="#" class="btn">Contact Us</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section" id="contact">
+                <div class="cta-inline-form fade-in">
+                    <h2 class="gradient-text">Ready to Build Your Website?</h2>
+                    <p>Let's talk about your project. Enter your email and we'll get back to you within 24 hours.</p>
+                    <div class="form-group">
+                        <input type="email" placeholder="you@example.com">
+                        <button class="btn">Get a Quote</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p>© 2025 BuildView Creative Studio. All Rights Reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // --- Intersection Observer for fade-in animations ---
+            if ('IntersectionObserver' in window) {
+                const elementsToAnimate = document.querySelectorAll('.fade-in');
+                const timelineSections = document.querySelectorAll('.timeline-section');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                elementsToAnimate.forEach(el => observer.observe(el));
+                timelineSections.forEach(el => observer.observe(el));
+            }
+
+            // --- Accordion Logic for Services Section ---
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            const firstAccordionBody = document.querySelector('.accordion-item.active .accordion-body');
+            if(firstAccordionBody) {
+                firstAccordionBody.style.maxHeight = firstAccordionBody.scrollHeight + "px";
+            }
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    accordionItems.forEach(i => {
+                        i.classList.remove('active');
+                        i.querySelector('.accordion-body').style.maxHeight = 0;
+                    });
+                    if (!isActive) {
+                        item.classList.add('active');
+                        const body = item.querySelector('.accordion-body');
+                        body.style.maxHeight = body.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // --- Tabs Logic for Portfolio Section ---
+            const navItems = document.querySelectorAll('.portfolio-nav-item');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            
+            navItems.forEach(navItem => {
+                navItem.addEventListener('click', () => {
+                    const targetId = navItem.getAttribute('data-target');
+
+                    navItems.forEach(item => item.classList.remove('active'));
+                    navItem.classList.add('active');
+
+                    portfolioItems.forEach(item => {
+                        item.style.display = 'none';
+                        item.classList.remove('active');
+                    });
+                    
+                    const targetItem = document.getElementById(targetId);
+                    if (targetItem) {
+                        targetItem.style.display = 'block';
+                        targetItem.classList.add('active');
+                    }
+                });
+            });
+            // Hide non-active portfolio items initially
+            portfolioItems.forEach(item => {
+                if(!item.classList.contains('active')) {
+                     item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

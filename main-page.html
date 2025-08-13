@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Change BuildView | Architects of Digital Growth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-bg: #0D0F17;
+            --color-glass-bg: rgba(22, 25, 40, 0.5);
+            --color-glass-border: rgba(255, 255, 255, 0.1);
+            --color-text-primary: #f0f4f8;
+            --color-text-secondary: #a1a8c3;
+            --color-pink: #ff0080;
+            --color-purple: #7928ca;
+            --gradient-primary: linear-gradient(90deg, var(--color-pink), var(--color-purple));
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition-main: all 0.3s ease-in-out;
+        }
+
+        /* --- BASE & SCROLLBAR --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text-primary);
+            overflow-x: hidden;
+            background-image:
+                repeating-conic-gradient(from 0deg, rgba(161, 168, 195, 0.1) 0deg 0.1deg, transparent 0.1deg 90deg),
+                radial-gradient(ellipse 80% 80% at 20% -15%, rgba(121, 40, 202, 0.3), transparent),
+                radial-gradient(ellipse 80% 80% at 80% 115%, rgba(255, 0, 128, 0.25), transparent);
+            background-size: 50px 50px, 100% 100%, 100% 100%;
+            animation: aurora-pan 30s linear infinite;
+        }
+
+        @keyframes aurora-pan {
+            from {
+                background-position: 0% 0%, -10% -10%, 10% 10%;
+            }
+
+            to {
+                background-position: 50px 50px, 10% 10%, -10% -10%;
+            }
+        }
+
+        /* --- INTERACTIVE & DECORATIVE ELEMENTS --- */
+        .cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(121, 40, 202, 0.2) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: width 0.3s, height 0.3s;
+            z-index: 1001;
+        }
+
+        .scroll-indicator-container {
+            position: fixed;
+            top: 0;
+            left: 20px;
+            bottom: 0;
+            width: 2px;
+            display: flex;
+            align-items: center;
+            z-index: 1002;
+        }
+
+        .scroll-indicator-track {
+            width: 100%;
+            height: 80vh;
+            background: var(--color-glass-border);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .scroll-indicator-progress {
+            width: 100%;
+            height: 0%;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--color-pink);
+        }
+
+        /* --- BASE STYLES --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--gradient-primary);
+            color: var(--color-text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-main);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(121, 40, 202, 0.5);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .glass-card {
+            background: var(--color-glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--color-glass-border);
+            border-radius: var(--radius-lg);
+            transition: var(--transition-main);
+        }
+
+        .glass-card:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- HEADER & MEGA MENU --- */
+        .main-header {
+            position: sticky;
+            top: 16px;
+            z-index: 1000;
+            padding: 8px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-logo img {
+            height: 40px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item>a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 16px;
+            transition: var(--transition-main);
+        }
+
+        .nav-item:hover>a {
+            color: var(--color-text-primary);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 16px);
+            left: 50%;
+            width: 700px;
+            padding: 24px;
+            border-radius: var(--radius-md);
+            display: none;
+            opacity: 0;
+            transform: translateX(-50%) translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+
+        .dropdown-menu .dropdown-column {
+            flex: 1;
+        }
+
+        .dropdown-menu h4 {
+            color: var(--color-pink);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            text-decoration: none;
+            color: var(--color-text-primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+            padding: 4px 0;
+        }
+
+        .dropdown-menu a:hover {
+            color: var(--color-pink);
+        }
+
+        .dropdown-menu p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+
+        .hero-image {
+            margin-top: 60px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 800px;
+            /* border-radius: var(--radius-md); */
+            /* box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); */
+        }
+
+        /* --- LOGO SCROLLER --- */
+        .logo-scroller {
+            overflow: hidden;
+            padding: 40px 0;
+            mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+        }
+
+        .logo-scroller .scroller-inner {
+            display: flex;
+            gap: 60px;
+            width: max-content;
+            animation: scroll 40s linear infinite;
+        }
+
+        .logo-scroller img {
+            height: 32px;
+            filter: grayscale(1) brightness(1.5);
+            opacity: 0.6;
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* --- STATS COUNTER --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stat-item p {
+            color: var(--color-text-secondary);
+            font-weight: 600;
+        }
+
+             .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        /* bento grid section  */
+
+        .bento-card {
+            background: var(--color-glass-bg);
+            border: 1px solid var(--color-glass-border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-main);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 40px rgba(121, 40, 202, 0.2);
+        }
+
+        .bento-card.item-1 {
+            grid-column: span 2;
+        }
+
+        .bento-card.item-2,
+        .bento-card.item-3,
+        .bento-card.item-4 {
+            grid-column: span 1;
+        }
+
+        .bento-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .bento-card p {
+            color: var(--color-text-secondary);
+        }
+
+        .bento-card .bento-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            color: var(--color-pink);
+        }
+
+        .bento-card .bento-img {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 50%;
+            opacity: 0.2;
+            transform: translate(20%, 20%);
+            transition: var(--transition-main);
+            pointer-events: none;
+        }
+
+        .bento-card:hover .bento-img {
+            opacity: 0.4;
+            transform: translate(10%, 10%) scale(1.1);
+        }
+
+        /* TOOL KIT */
+
+
+        /* --- WORKFLOW --- */
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 32px;
+        }
+
+        .workflow-card .step-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--color-text-secondary);
+            opacity: 0.3;
+            margin-bottom: 16px;
+        }
+
+        .workflow-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        /* --- PROJECT SLIDER --- */
+        .integration-slider {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            padding: 24px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .integration-card {
+            flex: 0 0 48%;
+            max-width: 48%;
+            scroll-snap-align: center;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .integration-content {
+            padding: 40px;
+            flex-grow: 1;
+        }
+
+        .integration-card h3 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .integration-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .integration-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-main);
+        }
+
+        .integration-card:hover .integration-image img {
+            transform: scale(1.05);
+        }
+
+        /* --- GLOBAL PRESENCE --- */
+        .global-presence {
+            position: relative;
+            height: 70vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .globe-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: auto;
+            height: 150%;
+            min-width: 150%;
+            transform: translate(-50%, -50%);
+            z-index: -2;
+            opacity: 0.4;
+        }
+
+        .global-presence::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, transparent 40%, var(--color-bg) 75%);
+            z-index: -1;
+        }
+
+        .global-presence .content {
+            max-width: 800px;
+        }
+
+        /* --- BLOGS --- */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .blog-card-content {
+            padding: 24px;
+        }
+
+        .blog-card h3 {
+            margin-bottom: 12px;
+        }
+
+        /* --- FAQ ACCORDION --- */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--color-glass-border);
+        }
+
+        .faq-question {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .faq-answer p {
+            padding: 0 24px 24px;
+            color: var(--color-text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+        /* --- FOOTER --- */
+        .main-footer {
+            border-top: 1px solid var(--color-glass-border);
+            padding: 60px 0;
+            margin-top: 100px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-glass-border);
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* --- FADE-IN ANIMATION --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) {
+
+            .scroll-indicator-container,
+            .nav-links {
+                display: none;
+            }
+
+            .stats-grid,
+            .workflow-grid,
+            .blog-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .integration-card {
+                flex: 0 0 65%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .stats-grid,
+            .workflow-grid,
+            .blog-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .integration-card {
+                flex: 0 0 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor-glow"></div>
+    <div class="scroll-indicator-container">
+        <div class="scroll-indicator-track">
+            <div class="scroll-indicator-progress"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="main-header glass-card animate-on-scroll">
+            <nav class="navbar">
+                <a href="#" class="main-logo"><img src="/Images/Buildview.png" alt="BuildView Logo"></a>
+
+                <ul class="nav-links">
+                    <li class="nav-item">
+                        <a href="#">Products</a>
+                        <div class="dropdown-menu glass-card">
+                            <div class="dropdown-column">
+                                <h4>Core</h4><a href="#">Payments</a>
+                                <p>A complete payments platform.</p><a href="#">Checkout</a><a href="#">Invoicing</a>
+                            </div>
+                            <div class="dropdown-column">
+                                <h4>Financial</h4><a href="#">Billing</a><a href="#">Connect</a><a href="#">Treasury</a>
+                            </div>
+                            <div class="dropdown-column">
+                                <h4>Operations</h4><a href="#">Radar</a><a href="#">Tax</a><a href="#">Atlas</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="#workflow">Workflow</a></li>
+                    <li class="nav-item"><a href="main-Projects.html">Projects</a></li>
+                    <li class="nav-item"><a href="#blog">Blog</a></li>
+                    <li class="nav-item"><a href="main-about.html">About Us</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="Contact.html" class="cta-button cta">Contact Us</a>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+    <main>
+        <section class="hero container">
+            <div class="hero-text animate-on-scroll">
+                <h1>Architects of<br><span class="gradient-text">Digital Growth</span></h1>
+                <p>From initial concept to final launch and beyond, our integrated services are designed to build,
+                    engage, and scale your brand.</p>
+                <a href="#" class="cta-button">Start Your Project</a>
+            </div>
+            <div class="hero-image animate-on-scroll" style="transition-delay: 200ms;">
+                <img src="Images/UI.png" alt="BuildView Laptop Mockup">
+            </div>
+        </section>
+
+        <section class="social-proof animate-on-scroll">
+            <div class="logo-scroller">
+                <div class="scroller-inner">
+                    <img src="logos/postclick.svg" alt="Postclick" /><img src="logos/launchdarkly.svg"
+                        alt="LaunchDarkly" /><img src="logos/remote.svg" alt="Remote" /><img
+                        src="/Images/metabase-svgrepo-com.svg" alt="Metabase" /><img src="logos/atlassian.svg"
+                        alt="Atlassian" /><img src="logos/juniper.svg" alt="Juniper" /><img src="logos/braze.svg"
+                        alt="Braze" /><img src="Images/Tesla_Motors.svg" alt="Tesla" />
+                    <img src="logos/postclick.svg" alt="Postclick" /><img src="logos/launchdarkly.svg"
+                        alt="LaunchDarkly" /><img src="logos/remote.svg" alt="Remote" /><img
+                        src="/Images/metabase-svgrepo-com.svg" alt="Metabase" /><img src="logos/atlassian.svg"
+                        alt="Atlassian" /><img src="logos/juniper.svg" alt="Juniper" /><img src="logos/braze.svg"
+                        alt="Braze" /><img src="Images/Tesla_Motors.svg" alt="Tesla" />
+                </div>
+            </div>
+            <div class="stats-grid container section">
+                <div class="stat-item animate-on-scroll">
+                    <h3 class="counter" data-target="50">0</h3>
+                    <p>Websites Delivered</p>
+                </div>
+                <div class="stat-item animate-on-scroll" style="transition-delay: 100ms;">
+                    <h3 class="counter" data-target="120">0</h3>
+                    <p>Average SEO Growth (%)</p>
+                </div>
+                <div class="stat-item animate-on-scroll" style="transition-delay: 200ms;">
+                    <h3 class="counter" data-target="5">0</h3>
+                    <p>ROI with Paid Ads (x)</p>
+                </div>
+                <div class="stat-item animate-on-scroll" style="transition-delay: 300ms;">
+                    <h3 class="counter" data-target="30">0</h3>
+                    <p>Long-Term Clients</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" style="padding: 100px 24px;">
+            <div class="section-header animate-on-scroll">
+                <h2>A Complete Toolkit for Transformation</h2>
+                <p>From initial concept to final launch and beyond, our integrated services are designed to build,
+                    engage, and scale your brand.</p>
+            </div>
+            <div class="bento-grid" >
+                <div class="bento-card item-1 animate-on-scroll" onclick="window.location.href='main-web.html'">
+                    <h3>Web Design & Development</h3>
+                    <p>Creating immersive, high-performance websites with a focus on user experience, conversion, and
+                        scalability.</p>
+                    <img src="Images/Dev.png" alt="Abstract shapes" class="bento-img">
+                </div>
+                <div class="bento-card item-2 animate-on-scroll" onclick="window.location.href='Main-SEO.html'">
+                    <i class="fas fa-chart-line bento-icon"></i>
+                    <h3>SEO & Marketing</h3>
+                    <p>Data-driven strategies to dominate search rankings and capture your target audience.</p>
+                </div>
+                <div class="bento-card item-3 animate-on-scroll" onclick="window.location.href='Video-2.html'">
+                    <i class="fas fa-video bento-icon"></i>
+                    <h3>Video & Gen-AI</h3>
+                    <p>High-quality video production and AI-powered solutions for modern content needs.</p>
+                </div>
+                <div class="bento-card item-4 animate-on-scroll">
+                    <i class="fas fa-palette bento-icon"></i>
+                    <h3>Brand Transformation</h3>
+                    <p>Crafting memorable brand identities that resonate and inspire trust.</p>
+                </div>
+                <div class="bento-card item-4 animate-on-scroll">
+                    <i class="fas fa-palette Ai-icon"></i>
+                    <h3>Gen-AI Solutions</h3>
+                    <p>Crafting memorable brand identities that resonate and inspire trust.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="workflow" class="section container">
+            <div class="section-header animate-on-scroll">
+                <h2>How We Work</h2>
+                <p>Our process is built on clarity, collaboration, and a relentless focus on results.</p>
+            </div>
+            <div class="workflow-grid">
+                <div class="workflow-card glass-card animate-on-scroll">
+                    <div class="step-number">01</div>
+                    <h3>Discover & Strategize</h3>
+                    <p>We start by understanding your vision to build a tailored roadmap for success.</p>
+                </div>
+                <div class="workflow-card glass-card animate-on-scroll" style="transition-delay: 150ms;">
+                    <div class="step-number">02</div>
+                    <h3>Design & Develop</h3>
+                    <p>Our team crafts and builds your project with precision, providing drafts for feedback.</p>
+                </div>
+                <div class="workflow-card glass-card animate-on-scroll" style="transition-delay: 300ms;">
+                    <div class="step-number">03</div>
+                    <h3>Launch & Grow</h3>
+                    <p>We deploy your project and provide ongoing support to ensure continued growth.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="global-presence">
+            <video autoplay muted loop playsinline class="globe-video">
+                <source src="/Images/earth sphere.mp4" type="video/mp4" />
+            </video>
+            <div class="content container animate-on-scroll">
+                <h2>Our Global <span class="gradient-text">Deliveries</span></h2>
+                <p>Our teams are spread across the globe, delivering powerful web and brand solutions to clients every
+                    day.</p>
+            </div>
+        </section>
+
+        <section id="blog" class="section container">
+            <div class="section-header animate-on-scroll">
+                <h2>Latest Insights</h2>
+                <p>Explore insights, tips, and trends from the world of digital transformation.</p>
+            </div>
+            <div class="blog-grid">
+                <div class="blog-card glass-card animate-on-scroll">
+                    <img src="/Images/image.png" alt="SEO Strategies" />
+                    <div class="blog-card-content">
+                        <h3>Top SEO Strategies to Boost Traffic in 2025</h3>
+                        <a href="#">Read More →</a>
+                    </div>
+                </div>
+                <div class="blog-card glass-card animate-on-scroll" style="transition-delay: 150ms;">
+                    <img src="/Images/blog - 2.jpg" alt="Web Design Trends" />
+                    <div class="blog-card-content">
+                        <h3>Modern Web Design Trends That Convert</h3>
+                        <a href="#">Read More →</a>
+                    </div>
+                </div>
+                <div class="blog-card glass-card animate-on-scroll" style="transition-delay: 300ms;">
+                    <img src="/Images/Support.png" alt="Branding" />
+                    <div class="blog-card-content">
+                        <h3>Brand Transformation: A Guide for 2025</h3>
+                        <a href="#">Read More →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="section container">
+            <div class="section-header animate-on-scroll">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-container glass-card animate-on-scroll">
+                <div class="faq-item">
+                    <div class="faq-question">What is BuildView?</div>
+                    <div class="faq-answer">
+                        <p>BuildView is a digital agency specializing in web development, branding, and video production
+                            to drive growth.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Why build with BuildView?</div>
+                    <div class="faq-answer">
+                        <p>We combine strategic thinking, creative design, and cutting-edge technology to deliver
+                            results.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I get stable growth for my business?</div>
+                    <div class="faq-answer">
+                        <p>Absolutely. Our strategies are designed for sustainable, long-term growth, not just
+                            short-term gains.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Why is BuildView different from others?</div>
+                    <div class="faq-answer">
+                        <p>Our key differentiator is our partnership approach. We act as an extension of your team,
+                            invested in your success.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="main-logo"><img src="/Images/Buildview.png" alt="BuildView Logo"
+                            style="height:40px; margin-bottom: 16px;"></a>
+                    <p>Architects of Digital Growth.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Products</h4>
+                    <a href="#">Web Development</a><a href="#">SEO & Marketing</a><a href="#">Video Services</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="#">Blog</a><a href="#">Case Studies</a><a href="#">Contact Us</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>hello@buildview.agency</p>
+                    <p>+91 78281 49185</p>
+                    <p>Indore, MP, India</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 BuildView Inc. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const glow = document.querySelector('.cursor-glow');
+            document.addEventListener('mousemove', e => {
+                requestAnimationFrame(() => {
+                    glow.style.left = `${e.clientX}px`;
+                    glow.style.top = `${e.clientY}px`;
+                });
+            });
+
+            const progress = document.querySelector('.scroll-indicator-progress');
+            window.addEventListener('scroll', () => {
+                requestAnimationFrame(() => {
+                    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrolled = (window.scrollY / scrollableHeight) * 100;
+                    progress.style.height = `${scrolled}%`;
+                });
+            }, { passive: true });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = +el.getAttribute('data-target');
+                        let current = 0;
+                        const duration = 2000;
+                        const stepTime = 20;
+                        const steps = duration / stepTime;
+                        const increment = target / steps;
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                el.innerText = Math.ceil(current);
+                                setTimeout(updateCounter, stepTime);
+                            } else {
+                                el.innerText = target;
+                            }
+                        };
+                        updateCounter();
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.8 });
+            document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const currentlyActive = document.querySelector('.faq-item.active');
+                    if (currentlyActive && currentlyActive !== item) {
+                        currentlyActive.classList.remove('active');
+                    }
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
