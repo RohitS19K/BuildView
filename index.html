@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -327,6 +328,15 @@
         }
 
         /* --- STATS COUNTER --- */
+        .by-slide {
+            margin-top: 3rem;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 1000;
+            /* margin-bottom: 16px; */
+            text-align: center;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -348,11 +358,12 @@
             font-weight: 600;
         }
 
-             .bento-grid {
+        .bento-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
         }
+
         /* bento grid section  */
 
         .bento-card {
@@ -435,53 +446,333 @@
             margin-bottom: 12px;
         }
 
-        /* --- PROJECT SLIDER --- */
-        .integration-slider {
-            display: flex;
-            gap: 24px;
-            overflow-x: auto;
-            padding: 24px;
-            scroll-snap-type: x mandatory;
+        /* projects */
+        /* --- Core Styles for the Carousel Section --- */
+        .bv-carousel-section {
+            padding: 80px 0;
         }
 
-        .integration-card {
-            flex: 0 0 48%;
-            max-width: 48%;
-            scroll-snap-align: center;
+        .bv-carousel-header {
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 1140px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+
+        .bv-carousel-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .bv-carousel-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- 3D Rotary Carousel Styles --- */
+        .bv-carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .bv-carousel-stage {
+            position: relative;
+            width: 50%;
+            height: 300px;
+            margin: 0 auto;
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+
+        .bv-carousel-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* Replicating .glass-card style directly */
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            overflow: hidden;
+            backface-visibility: hidden;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
+            cursor: pointer;
+        }
+
+        .bv-carousel-card img {
+            /* max-width: fit-content; */
+            width: 100%;
+            height: 100%;
+            
+            object-fit: cover;
+        }
+
+        /* Card States */
+        .bv-carousel-card.bv-is-active {
+            transform: translateX(0) translateZ(0) rotateY(0);
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .bv-carousel-card.bv-is-prev {
+            transform: translateX(-60%) translateZ(-250px) rotateY(45deg);
+            opacity: 0.6;
+            z-index: 5;
+        }
+
+        .bv-carousel-card.bv-is-next {
+            transform: translateX(60%) translateZ(-250px) rotateY(-45deg);
+            opacity: 0.6;
+            z-index: 5;
+        }
+
+        .bv-carousel-card.bv-is-hidden {
+            transform: translateZ(-500px);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* Hover Overlay */
+        .bv-carousel-overlay {
+            position: absolute;
+            inset: 0;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            padding: 0;
+            justify-content: flex-end;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(7, 9, 20, 0.9) 15%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
-        .integration-content {
-            padding: 40px;
-            flex-grow: 1;
+        .bv-carousel-card.bv-is-active:hover .bv-carousel-overlay {
+            opacity: 1;
         }
 
-        .integration-card h3 {
-            font-size: 2rem;
+        .bv-carousel-overlay h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+        }
+
+        .bv-carousel-overlay p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Navigation Buttons */
+        .bv-carousel-nav {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .bv-carousel-nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .bv-carousel-nav-btn:hover {
+            border-color: var(--primary-pink);
+        }
+
+        .bv-carousel-nav-btn svg {
+            width: 24px;
+        }
+
+        /* Fade-in Animation Styles */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* projects */
+        /* PROCESS */
+        /* --- Styles for Interactive Process Showcase --- */
+        .bv-process-section {
+            padding: 80px 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .bv-process-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bv-process-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+        }
+
+        .bv-process-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
             margin-bottom: 16px;
+            color: #f0f4f8;
+            /* --text-primary */
         }
 
-        .integration-image {
-            height: 250px;
-            overflow: hidden;
+        .bv-process-header .gradient-text {
+            background: linear-gradient(90deg, #ff0080, #7928ca);
+            /* --primary-gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .integration-image img {
+        .bv-process-header p {
+            font-size: 1.1rem;
+            color: #a8b2d1;
+            /* --text-secondary */
+        }
+
+        .bv-process-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: flex-start;
+            gap: 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .bv-process-nav {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .bv-process-nav__pill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            /* Should match the height of a step card */
+            background: linear-gradient(90deg, #ff0080, #7928ca);
+            /* --primary-gradient */
+            opacity: 0.1;
+            border: 1px solid #ff0080;
+            /* --primary-pink */
+            border-radius: 16px;
+            /* --radius-lg */
+            z-index: 1;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .bv-process-nav__step {
+            position: relative;
+            z-index: 2;
+            padding: 24px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 16px;
+            /* --radius-lg */
+            height: 150px;
+        }
+
+        .bv-process-nav__step-number {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ff0080;
+            /* --primary-pink */
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .bv-process-nav__step h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #a8b2d1;
+            /* --text-secondary */
+            margin-bottom: 8px;
+            transition: color 0.4s ease;
+        }
+
+        .bv-process-nav__step.active h3 {
+            color: #f0f4f8;
+            /* --text-primary */
+        }
+
+        .bv-process-nav__step p {
+            font-size: 0.95rem;
+            color: #a8b2d1;
+            /* --text-secondary */
+            line-height: 1.6;
+        }
+
+        .bv-process-visuals {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            /* --radius-lg */
+        }
+
+        .bv-process-visuals__image {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition-main);
+            border-radius: 16px;
+            /* --radius-lg */
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
-        .integration-card:hover .integration-image img {
-            transform: scale(1.05);
+        .bv-process-visuals__image.active {
+            opacity: 1;
+            transform: scale(1);
         }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .bv-process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bv-process-visuals {
+                margin-top: 40px;
+            }
+        }
+
+        /* PROCESS */
 
         /* --- GLOBAL PRESENCE --- */
         .global-presence {
+            margin-top: 2rem;
             position: relative;
             height: 70vh;
             min-height: 600px;
@@ -517,25 +808,122 @@
         }
 
         /* --- BLOGS --- */
-        .blog-grid {
+        /* --- Styles for "Latest Insights" Section --- */
+        .bv-insights-section {
+            margin-top: 2rem;
+            padding: 80px 20px;
+        }
+
+        .bv-insights-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+        }
+
+        .bv-insights-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #f0f4f8;
+            /* --text-primary */
+        }
+
+        .bv-insights-header .bv-insights-gradient-text {
+            background: linear-gradient(90deg, #ff0080, #7928ca);
+            /* --primary-gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bv-insights-header p {
+            font-size: 1.1rem;
+            color: #a8b2d1;
+            /* --text-secondary */
+        }
+
+        .bv-insights-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1140px;
+            margin: 0 auto;
         }
 
-        .blog-card img {
+        .bv-insights-card {
+            /* Glassmorphic Background */
+            background: rgba(22, 25, 48, 0.4);
+            /* --glass-bg */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* --glass-border */
+            border-radius: 16px;
+            /* --radius-lg */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            overflow: hidden;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .bv-insights-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .bv-insights-card__image-wrapper {
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+        }
+
+        .bv-insights-card__image-wrapper img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            transition: transform 0.4s ease;
         }
 
-        .blog-card-content {
+        .bv-insights-card:hover .bv-insights-card__image-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .bv-insights-card__content {
             padding: 24px;
         }
 
-        .blog-card h3 {
+        .bv-insights-card__content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #f0f4f8;
+            /* --text-primary */
             margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .bv-insights-card__cta {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #a8b2d1;
+            /* --text-secondary */
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .bv-insights-card:hover .bv-insights-card__cta {
+            color: #ff0080;
+            /* --primary-pink */
+        }
+
+        /* --- Animation Styles --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* --- FAQ ACCORDION --- */
@@ -594,6 +982,13 @@
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 40px;
+        }
+
+        .footer-link {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
 
         .footer-bottom {
@@ -687,7 +1082,7 @@
                     </li>
                     <li class="nav-item"><a href="#workflow">Workflow</a></li>
                     <li class="nav-item"><a href="main-Projects.html">Projects</a></li>
-                    <li class="nav-item"><a href="#blog">Blog</a></li>
+                    <li class="nav-item"><a href="#bv-insights-section">Blog</a></li>
                     <li class="nav-item"><a href="main-about.html">About Us</a></li>
                 </ul>
                 <div class="nav-actions">
@@ -725,7 +1120,11 @@
                         alt="Braze" /><img src="Images/Tesla_Motors.svg" alt="Tesla" />
                 </div>
             </div>
+            <div class="by-slide">
+                <h3>Our Service <span class="gradient-text">Record</span></h3>
+            </div>
             <div class="stats-grid container section">
+
                 <div class="stat-item animate-on-scroll">
                     <h3 class="counter" data-target="50">0</h3>
                     <p>Websites Delivered</p>
@@ -747,11 +1146,11 @@
 
         <section class="container" style="padding: 100px 24px;">
             <div class="section-header animate-on-scroll">
-                <h2>A Complete Toolkit for Transformation</h2>
+                <h2>A Complete Toolkit for <span class="gradient-text">Transformation</span></h2>
                 <p>From initial concept to final launch and beyond, our integrated services are designed to build,
                     engage, and scale your brand.</p>
             </div>
-            <div class="bento-grid" >
+            <div class="bento-grid">
                 <div class="bento-card item-1 animate-on-scroll" onclick="window.location.href='main-web.html'">
                     <h3>Web Design & Development</h3>
                     <p>Creating immersive, high-performance websites with a focus on user experience, conversion, and
@@ -780,30 +1179,247 @@
                 </div>
             </div>
         </section>
-
-        <section id="workflow" class="section container">
-            <div class="section-header animate-on-scroll">
-                <h2>How We Work</h2>
-                <p>Our process is built on clarity, collaboration, and a relentless focus on results.</p>
+        <!-- <section id="projects-showcase" class="section fade-in">
+            <div class="section-header container">
+                <h2>A New Perspective On Our Work</h2>
+                <p>Use the navigation to rotate through a selection of our feature projects, showcasing our diverse
+                    capabilities.</p>
             </div>
-            <div class="workflow-grid">
-                <div class="workflow-card glass-card animate-on-scroll">
-                    <div class="step-number">01</div>
-                    <h3>Discover & Strategize</h3>
-                    <p>We start by understanding your vision to build a tailored roadmap for success.</p>
+
+            <div class="rotary-carousel-container">
+                <div class="carousel-stage">
+                    <div class="carousel-card glass-card">
+                        <img src="/Images/WipeOut.jpeg" alt="WipeOut Facility Management Project">
+                        <div class="card-overlay">
+                            <h3>WipeOut Facility Management</h3>
+                            <p>Web Design & Branding</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card glass-card">
+                        <img src="/Images/Dashbord.png" alt="BuildView Management Software Project">
+                        <div class="card-overlay">
+                            <h3>BuildView Management Software</h3>
+                            <p>UI/UX Design & Development</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card glass-card">
+                        <img src="/Images/UX.png" alt="Gaushala Seva Initiative Project">
+                        <div class="card-overlay">
+                            <h3>Gaushala Seva Initiative</h3>
+                            <p>Non-Profit Web Platform</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card glass-card">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800"
+                            alt="Corporate Branding Project">
+                        <div class="card-overlay">
+                            <h3>Innovate Corp</h3>
+                            <p>Corporate Rebranding</p>
+                        </div>
+                    </div>
+                    <div class="carousel-card glass-card">
+                        <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=800"
+                            alt="Social Media Project">
+                        <div class="card-overlay">
+                            <h3>Connect Social App</h3>
+                            <p>Video & Motion Graphics</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="workflow-card glass-card animate-on-scroll" style="transition-delay: 150ms;">
-                    <div class="step-number">02</div>
-                    <h3>Design & Develop</h3>
-                    <p>Our team crafts and builds your project with precision, providing drafts for feedback.</p>
+                <div class="carousel-nav">
+                    <button class="carousel-nav-btn" id="carousel-prev">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <button class="carousel-nav-btn" id="carousel-next">
+                        <svg xmlns="http://www.w.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
                 </div>
-                <div class="workflow-card glass-card animate-on-scroll" style="transition-delay: 300ms;">
-                    <div class="step-number">03</div>
-                    <h3>Launch & Grow</h3>
-                    <p>We deploy your project and provide ongoing support to ensure continued growth.</p>
+            </div>
+        </section> -->
+
+        <!-- <section id="integration" class="section">
+                <div class="section-header container animate-on-scroll">
+                    <h2>Integrate Seamlessly. <span class="gradient-text">Build Smarter.</span></h2>
+                    <p>At Build View, we connect your business with powerful tools and platforms to streamline
+                        operations,
+                        enhance performance, and unlock smarter digital growth.</p>
+                </div>
+
+                <section id="projects-showcase" class="section">
+                    <div class="section-header container">
+                        <h2>A New Perspective On Our Work</h2>
+                        <p>Use the navigation to rotate through a selection of our feature projects, showcasing our
+                            diverse capabilities.</p>
+                    </div>
+
+                    <div class="rotary-carousel-container">
+                        <div class="carousel-stage">
+                            <div class="carousel-card glass-card">
+                                <img src="/Images/WipeOut.jpeg" alt="WipeOut Facility Management Project">
+                                <div class="card-overlay">
+                                    <h3>WipeOut Facility Management</h3>
+                                    <p>Web Design & Branding</p>
+                                </div>
+                            </div>
+                            <div class="carousel-card glass-card">
+                                <img src="/Images/Dashbord.png" alt="BuildView Management Software Project">
+                                <div class="card-overlay">
+                                    <h3>BuildView Management Software</h3>
+                                    <p>UI/UX Design & Development</p>
+                                </div>
+                            </div>
+                            <div class="carousel-card glass-card">
+                                <img src="/Images/UX.png" alt="Gaushala Seva Initiative Project">
+                                <div class="card-overlay">
+                                    <h3>Gaushala Seva Initiative</h3>
+                                    <p>Non-Profit Web Platform</p>
+                                </div>
+                            </div>
+                            <div class="carousel-card glass-card">
+                                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800"
+                                    alt="Corporate Branding Project">
+                                <div class="card-overlay">
+                                    <h3>Innovate Corp</h3>
+                                    <p>Corporate Rebranding</p>
+                                </div>
+                            </div>
+                            <div class="carousel-card glass-card">
+                                <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=800"
+                                    alt="Social Media Project">
+                                <div class="card-overlay">
+                                    <h3>Connect Social App</h3>
+                                    <p>Video & Motion Graphics</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="carousel-nav-btn" id="carousel-prev">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                </svg>
+                            </button>
+                            <button class="carousel-nav-btn" id="carousel-next">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </section> -->
+        <section id="projects-showcase" class="bv-carousel-section fade-in">
+            <div class="bv-carousel-header">
+                <h2>A New Perspective On <span class="gradient-text">Our Work</span></h2>
+                <p>Use the navigation to rotate through a selection of our feature projects, showcasing our diverse
+                    capabilities.</p>
+            </div>
+
+            <div class="bv-carousel-container">
+                <div class="bv-carousel-stage">
+                    <div class="bv-carousel-card">
+                        <img src="Images/Dashbord.png" alt="WipeOut Facility Management Project">
+                        <div class="bv-carousel-overlay">
+                            <h3>WipeOut Facility Management</h3>
+                            <p>Web Design & Branding</p>
+                        </div>
+                    </div>
+                    <div class="bv-carousel-card">
+                        <img src="/Images/WipeOut_Management.jpeg" alt="BuildView Management Software Project">
+                        <div class="bv-carousel-overlay">
+                            <h3>BuildView Management Software</h3>
+                            <p>UI/UX Design & Development</p>
+                        </div>
+                    </div>
+                    <div class="bv-carousel-card">
+                        <img src="/Images/UX.png" alt="Gaushala Seva Initiative Project">
+                        <div class="bv-carousel-overlay">
+                            <h3>Gaushala Seva Initiative</h3>
+                            <p>Non-Profit Web Platform</p>
+                        </div>
+                    </div>
+                    <div class="bv-carousel-card">
+                        <img src="Images/video-service.png"
+                            alt="Corporate Branding Project">
+                        <div class="bv-carousel-overlay">
+                            <h3>Innovate Corp</h3>
+                            <p>Corporate Rebranding</p>
+                        </div>
+                    </div>
+                    <div class="bv-carousel-card">
+                        <img src="Images/video-service.png"
+                            alt="Social Media Project">
+                        <div class="bv-carousel-overlay">
+                            <h3>Connect Social App</h3>
+                            <p>Video & Motion Graphics</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bv-carousel-nav">
+                    <button class="bv-carousel-nav-btn bv-carousel-prev">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <button class="bv-carousel-nav-btn bv-carousel-next">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </section>
+
+        <!-- Process -->
+        <section class="bv-process-section bv-process-fade-in">
+            <div class="bv-process-header">
+                <h2>Our Blueprint for <span class="gradient-text">Success</span></h2>
+                <p>We follow a clear, collaborative, and results-driven process to ensure your vision is realized with
+                    precision and excellence.</p>
+            </div>
+
+            <div class="bv-process-grid">
+                <div class="bv-process-nav">
+                    <div class="bv-process-nav__pill"></div>
+                    <div class="bv-process-nav__step active" data-step="1">
+                        <div class="bv-process-nav__step-number">01</div>
+                        <h3>Discover & Strategize</h3>
+                        <p>We dive deep into your goals to build a comprehensive roadmap for success.</p>
+                    </div>
+                    <div class="bv-process-nav__step" data-step="2">
+                        <div class="bv-process-nav__step-number">02</div>
+                        <h3>Design & Develop</h3>
+                        <p>Our team translates the strategy into compelling designs and robust solutions.</p>
+                    </div>
+                    <div class="bv-process-nav__step" data-step="3">
+                        <div class="bv-process-nav__step-number">03</div>
+                        <h3>Launch & Grow</h3>
+                        <p>We deploy your project and provide ongoing support to ensure sustained growth.</p>
+                    </div>
+                </div>
+                <div class="bv-process-visuals">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800"
+                        alt="Strategy session with sticky notes" class="bv-process-visuals__image active"
+                        data-visual="1">
+                    <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800"
+                        alt="UI/UX design on a computer screen" class="bv-process-visuals__image" data-visual="2">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800"
+                        alt="Analytics dashboard showing growth" class="bv-process-visuals__image" data-visual="3">
+                </div>
+            </div>
+        </section>
+        <!-- Process -->
 
 
         <section class="global-presence">
@@ -812,14 +1428,15 @@
             </video>
             <div class="content container animate-on-scroll">
                 <h2>Our Global <span class="gradient-text">Deliveries</span></h2>
-                <p>Our teams are spread across the globe, delivering powerful web and brand solutions to clients every
+                <p>Our teams are spread across the globe, delivering powerful web and brand solutions to clients
+                    every
                     day.</p>
             </div>
         </section>
 
-        <section id="blog" class="section container">
+        <!-- <section id="blog" class="section container">
             <div class="section-header animate-on-scroll">
-                <h2>Latest Insights</h2>
+                <h2>Latest <span class="gradient-text"> Insights</span></h2>
                 <p>Explore insights, tips, and trends from the world of digital transformation.</p>
             </div>
             <div class="blog-grid">
@@ -845,17 +1462,60 @@
                     </div>
                 </div>
             </div>
+        </section> -->
+
+        <section class="bv-insights-section">
+            <div class="bv-insights-header animate-on-scroll">
+                <h2>Latest <span class="bv-insights-gradient-text">Insights</span></h2>
+                <p>Explore insights, tips, and trends from the world of digital transformation.</p>
+            </div>
+            <div class="bv-insights-grid">
+                <!-- Insight Card 1 -->
+                <a href="Blogs.html" class="bv-insights-card animate-on-scroll">
+                    <div class="bv-insights-card__image-wrapper">
+                        <img src="Images/output.jpg"
+                            alt="Abstract graphic representing technical SEO concepts">
+                    </div>
+                    <div class="bv-insights-card__content">
+                        <h3>Top SEO Strategies to Boost Traffic in 2025</h3>
+                        <span class="bv-insights-card__cta">Read More</span>
+                    </div>
+                </a>
+                <!-- Insight Card 2 -->
+                <a href="#" class="bv-insights-card animate-on-scroll" style="transition-delay: 150ms;">
+                    <div class="bv-insights-card__image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800"
+                            alt="Team collaborating on web design">
+                    </div>
+                    <div class="bv-insights-card__content">
+                        <h3>Modern Web Design Trends That Convert</h3>
+                        <span class="bv-insights-card__cta">Read More</span>
+                    </div>
+                </a>
+                <!-- Insight Card 3 -->
+                <a href="#" class="bv-insights-card animate-on-scroll" style="transition-delay: 300ms;">
+                    <div class="bv-insights-card__image-wrapper">
+                        <img src="Images/brand-transformation.png"
+                            alt="Chat bubbles representing brand communication">
+                    </div>
+                    <div class="bv-insights-card__content">
+                        <h3>Brand Transformation: A Guide for 2025</h3>
+                        <span class="bv-insights-card__cta">Read More</span>
+                    </div>
+                </a>
+            </div>
         </section>
 
         <section id="faq" class="section container">
             <div class="section-header animate-on-scroll">
-                <h2>Frequently Asked Questions</h2>
+                <h2>Frequently Asked <span class="gradient-text">Questions</span></h2>
             </div>
             <div class="faq-container glass-card animate-on-scroll">
                 <div class="faq-item">
                     <div class="faq-question">What is BuildView?</div>
                     <div class="faq-answer">
-                        <p>BuildView is a digital agency specializing in web development, branding, and video production
+                        <p>BuildView is a digital agency specializing in web development, branding, and video
+                            production
                             to drive growth.</p>
                     </div>
                 </div>
@@ -894,11 +1554,16 @@
                 </div>
                 <div class="footer-col">
                     <h4>Products</h4>
-                    <a href="#">Web Development</a><a href="#">SEO & Marketing</a><a href="#">Video Services</a>
+                    <a href="#" class="footer-link">Web Development</a>
+                    <a href="#" class="footer-link">SEO & Marketing</a>
+                    <a href="#" class="footer-link">Video Services</a>
                 </div>
                 <div class="footer-col">
                     <h4>Resources</h4>
-                    <a href="#">Blog</a><a href="#">Case Studies</a><a href="#">Contact Us</a>
+                    
+                    <a href="#" class="footer-link">Blog</a>
+                    <a href="#" class="footer-link">Case Studies</a>
+                    <a href="main-about.html" class="footer-link">Contact Us</a>
                 </div>
                 <div class="footer-col">
                     <h4>Contact</h4>
@@ -980,6 +1645,153 @@
                 });
             });
         });
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // --- Intersection Observer for Fade-in Animation ---
+            // This part assumes you have a global observer. If not, this will work standalone.
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+
+            // --- 3D Rotary Carousel Logic ---
+            const carousel = document.querySelector('.bv-carousel-container');
+            if (carousel) {
+                const stage = carousel.querySelector('.bv-carousel-stage');
+                const cards = stage.querySelectorAll('.bv-carousel-card');
+                const nextBtn = carousel.querySelector('.bv-carousel-next');
+                const prevBtn = carousel.querySelector('.bv-carousel-prev');
+                let currentIndex = 0;
+                const totalCards = cards.length;
+
+                function updateCarousel() {
+                    cards.forEach((card, index) => {
+                        card.classList.remove('bv-is-active', 'bv-is-prev', 'bv-is-next', 'bv-is-hidden');
+
+                        if (index === currentIndex) {
+                            card.classList.add('bv-is-active');
+                        } else if (index === (currentIndex - 1 + totalCards) % totalCards) {
+                            card.classList.add('bv-is-prev');
+                        } else if (index === (currentIndex + 1) % totalCards) {
+                            card.classList.add('bv-is-next');
+                        } else {
+                            card.classList.add('bv-is-hidden');
+                        }
+                    });
+                }
+
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex + 1) % totalCards;
+                    updateCarousel();
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+                    updateCarousel();
+                });
+
+                // Initialize the carousel
+                if (cards.length > 0) {
+                    updateCarousel();
+                }
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // --- Intersection Observer for Fade-in Animation ---
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        scrollObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            // Observe the main section container
+            const processSection = document.querySelector('.bv-process-section');
+            if (processSection) {
+                scrollObserver.observe(processSection);
+            }
+
+            // --- Interactive Process Showcase Logic ---
+            if (processSection) {
+                const stepTriggers = processSection.querySelectorAll('.bv-process-nav__step');
+                const visuals = processSection.querySelectorAll('.bv-process-visuals__image');
+                const activePill = processSection.querySelector('.bv-process-nav__pill');
+
+                if (stepTriggers.length > 0 && visuals.length > 0 && activePill) {
+                    function setActiveStep(stepIndex) {
+                        // Update active state for triggers
+                        stepTriggers.forEach((trigger, index) => {
+                            trigger.classList.toggle('active', index === stepIndex);
+                        });
+
+                        // Update active state for visuals
+                        visuals.forEach((visual, index) => {
+                            visual.classList.toggle('active', index === stepIndex);
+                        });
+
+                        // Move the active pill
+                        const activeTrigger = stepTriggers[stepIndex];
+                        if (activeTrigger) {
+                            const offsetTop = activeTrigger.offsetTop;
+                            activePill.style.transform = `translateY(${offsetTop}px)`;
+                        }
+                    }
+
+                    stepTriggers.forEach((trigger, index) => {
+                        trigger.addEventListener('click', () => {
+                            setActiveStep(index);
+                        });
+                    });
+
+                    // Initialize first step
+                    setActiveStep(0);
+                }
+            }
+        });
+
+        // Blog Carousel Logic
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if IntersectionObserver is supported to avoid errors in older browsers
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            // Stop observing the element once it's visible
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.1 // Trigger when 10% of the element is visible
+                });
+
+                // Observe all elements with the animation class
+                document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                    observer.observe(element);
+                });
+            } else {
+                // Fallback for browsers that don't support IntersectionObserver
+                document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                    element.classList.add('is-visible');
+                });
+            }
+        });
+
+
     </script>
 </body>
 
