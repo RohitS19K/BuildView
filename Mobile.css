@@ -1,0 +1,149 @@
+/* --- ADDED: Mobile Navigation Styles --- */
+.mobile-nav-toggle {
+    display: none; /* Hidden on desktop */
+    background: none;
+    border: none;
+    width: 30px;
+    height: 24px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.hamburger-line {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-text-primary);
+    border-radius: 3px;
+    margin: 5px 0;
+}
+
+.mobile-nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1002;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+body.mobile-nav-open .mobile-nav-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 280px;
+    background: var(--bg-soft);
+    z-index: 1003;
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+    padding: 80px 30px;
+}
+
+body.mobile-nav-open .mobile-nav {
+    transform: translateX(0);
+}
+
+.mobile-nav-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+.mobile-nav-links a {
+    display: block;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 15px 0;
+}
+
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 992px) {
+    .scroll-indicator-container {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    /* General */
+    .section {
+        padding: 60px 0;
+    }
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    .section-header p {
+        font-size: 1rem;
+    }
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    .hero-text p {
+        font-size: 1.1rem;
+    }
+
+    /* Header & Nav */
+    .nav-links {
+        display: none;
+    }
+    .mobile-nav-toggle {
+        display: block;
+    }
+    
+    /* Stats */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+    }
+    .stats-grid h3 {
+        font-size: 2.5rem;
+    }
+
+    /* Bento Grid */
+    .bento-grid {
+        grid-template-columns: 1fr;
+    }
+    .bento-card.item-1, .bento-card.item-2, .bento-card.item-3, .bento-card.item-4 {
+        grid-column: span 1;
+    }
+
+    /* Workflow */
+    .workflow-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* --- Touch-friendly Tap Effects --- */
+    .glass-card:active, .bento-card:active {
+        transform: scale(0.98) !important;
+        transition: transform 0.2s ease !important;
+    }
+    .cta-button:active {
+        transform: scale(0.96) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid, .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
