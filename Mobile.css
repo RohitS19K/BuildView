@@ -65,10 +65,11 @@ body.mobile-nav-open .mobile-nav {
     display: block;
     color: var(--color-text-primary);
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     padding: 15px 0;
 }
+
 
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
@@ -103,6 +104,9 @@ body.mobile-nav-open .mobile-nav {
     .mobile-nav-toggle {
         display: block;
     }
+    .mobile-nav-links a :hover {
+    color: var(--color-pink);
+}
     
     /* Stats */
     .stats-grid {

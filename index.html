@@ -9,9 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <!-- <link rel="stylesheet" href="Mobile.css"> -->
+    <link rel="stylesheet" href="Mobile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="Images/favicon.png" />  
+    <link rel="icon" type="image/png" href="Images/favicon.png" />
     <style>
         :root {
             --color-bg: #0D0F17;
@@ -476,7 +476,7 @@
 
         .bv-carousel-header h2 {
             font-size: 2.5rem;
-                /* font-size: clamp(2rem, 5vw, 3rem); */
+            /* font-size: clamp(2rem, 5vw, 3rem); */
             font-weight: 800;
             margin-bottom: 16px;
             color: var(--text-primary);
@@ -485,7 +485,7 @@
         .bv-carousel-header p {
             font-size: 1rem;
             /* color: var(--text-secondary); */
-                color: var(--color-text-secondary);
+            color: var(--color-text-secondary);
             max-width: 700px;
             margin: 0 auto;
         }
@@ -651,7 +651,7 @@
 
         .bv-process-header h2 {
             font-size: 2.5rem;
-                /* font-size: clamp(2rem, 5vw, 3rem); */
+            /* font-size: clamp(2rem, 5vw, 3rem); */
             font-weight: 800;
             margin-bottom: 16px;
             color: #f0f4f8;
@@ -838,7 +838,7 @@
 
         .bv-insights-header h2 {
             font-size: 2.5rem;
-                /* font-size: clamp(2rem, 5vw, 3rem); */
+            /* font-size: clamp(2rem, 5vw, 3rem); */
             font-weight: 800;
             margin-bottom: 16px;
             color: #f0f4f8;
@@ -1035,14 +1035,17 @@
             .nav-links {
                 display: none;
             }
-            .hero-image img{
+
+            .hero-image img {
                 padding: 0 20px;
-                
+
             }
+
             .hero-text p {
                 padding: 0 20px;
                 font-size: 1rem;
             }
+
             .stats-grid,
             .workflow-grid,
             .blog-grid {
@@ -1061,12 +1064,15 @@
             }
 
             .cta-button {
-                padding: 10px 20px;
+                padding: 10px 10px;
             }
 
             .cta-button a {
-                font-size: 0.9rem;
+                font-size: 20px;
             }
+            /* .nav-btn{
+
+            } */
 
             .hero-text animate-on-scroll {
                 padding: 0 20px;
@@ -1078,7 +1084,7 @@
                 /* 2 columns */
                 grid-template-rows: repeat(2, 1fr);
                 /* 2 rows */
-                gap: 10px;
+                gap: 40px;
                 padding: 0 20px;
             }
 
@@ -1111,7 +1117,23 @@
                 font-size: 1rem;
 
             }
-
+            .mobile-nav-toggle{
+                display: block;
+                position: relative; 
+                z-index: 1001;
+                padding-left: 10px;
+                padding-bottom: 5px;
+            }
+            .mobile-nav-toggle .hamburger-line {
+                width: 30px;
+                height: 3px;
+                background-color: var(--color-text-primary);
+                margin: 5px 0;
+                transition: all 0.3s ease;
+            }
+            .nav-actions{
+                 font-size: 10px;
+            }
             .bv-process-nav__step-number p {
                 font-size: 12px;
 
@@ -1122,17 +1144,20 @@
                 color: #a8b2d1;
                 line-height: 1.6;
             }
-            .bv-process-nav__step h3{
+
+            .bv-process-nav__step h3 {
                 font-size: 1.2rem;
             }
-            .bv-insights-section{
+
+            .bv-insights-section {
                 padding: 40px 35px;
             }
 
-            .faq-container glass-card animate-on-scroll is-visible{
+            .faq-container glass-card animate-on-scroll is-visible {
                 /* padding: 0 20px; */
                 margin: 0 auto;
             }
+
             .workflow-grid,
             .blog-grid,
             .footer-grid {
@@ -1159,11 +1184,11 @@
     <div class="container">
         <header class="main-header glass-card animate-on-scroll">
             <nav class="navbar">
-                <!-- <button class="mobile-nav-toggle" aria-label="Open navigation menu">
+                <button class="mobile-nav-toggle" aria-label="Open navigation menu">
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
-                </button> -->
+                </button>
                 <a href="#" class="main-logo"><img src="/Images/Buildview.png" alt="BuildView Logo"></a>
 
                 <ul class="nav-links">
@@ -1888,20 +1913,49 @@
                 });
             }
         });
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- Mobile Navigation Logic ---
+        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+        const mobileNavClose = document.querySelector('.mobile-nav-close');
+        const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+        const body = document.body;
+
+        if (mobileNavToggle) {
+            // Open the sidebar when the hamburger is clicked
+            mobileNavToggle.addEventListener('click', () => {
+                body.classList.add('mobile-nav-open');
+            });
+        }
+        
+        // Function to close the sidebar
+        const closeSidebar = () => {
+            body.classList.remove('mobile-nav-open');
+        };
+
+        // Close the sidebar when the close button or overlay is clicked
+        if (mobileNavClose) {
+            mobileNavClose.addEventListener('click', closeSidebar);
+        }
+        if (mobileNavOverlay) {
+            mobileNavOverlay.addEventListener('click', closeSidebar);
+        }
+    });
 
 
     </script>
-    <div class="mobile-nav-overlay"></div>
-    <aside class="mobile-nav">
-        <button class="mobile-nav-close" aria-label="Close navigation menu">&times;</button>
-        <nav class="mobile-nav-links">
-            <a href="#home">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#services">Services</a>
-            <a href="#projects">Our Clients</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </aside>
+   <div class="mobile-nav-overlay"></div>
+
+<aside class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close navigation menu">&times;</button>
+    <nav class="mobile-nav-links">
+        <a href="#">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Services</a>
+        <a href="#">Our Clients</a>
+        <a href="#">Contact</a>
+    </nav>
+</aside>
 </body>
 
 </html>
