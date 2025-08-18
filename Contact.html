@@ -184,18 +184,48 @@
   </div>
 
   <script>
-    const form = document.getElementById('contactForm');
-    const popup = document.getElementById('successPopup');
+  // JavaScript for handling form submission and popup
+  const form = document.getElementById('contactForm');
+  const popup = document.getElementById('successPopup');
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      popup.classList.add('active');
-      form.reset();
-    });
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-    function closePopup() {
-      popup.classList.remove('active');
+    // Collect form data
+    const data = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      phone: document.getElementById("phone").value,
+      service: document.getElementById("service").value,
+      message: document.getElementById("message").value,
+    };
+
+    try {
+      // Send to backend API
+      const res = await fetch("http://localhost:5000/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        popup.classList.add('active'); // Show success popup
+        form.reset();
+      } else {
+        alert("❌ Error: " + result.error);
+      }
+    } catch (err) {
+      alert("⚠️ Could not connect to server. Is backend running?");
     }
+  });
+
+  function closePopup() {
+    popup.classList.remove('active');
+  }
+
+
   </script>
 </body>
 </html>
