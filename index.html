@@ -1942,20 +1942,63 @@
         }
     });
 
+    
+  
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- Mobile Navigation Logic ---
+        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+        const mobileNavClose = document.querySelector('.mobile-nav-close');
+        const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+        const body = document.body;
+
+        if (mobileNavToggle) {
+            const openSidebar = () => body.classList.add('mobile-nav-open');
+            mobileNavToggle.addEventListener('click', openSidebar);
+        }
+        
+        const closeSidebar = () => body.classList.remove('mobile-nav-open');
+
+        if (mobileNavClose) {
+            mobileNavClose.addEventListener('click', closeSidebar);
+        }
+        if (mobileNavOverlay) {
+            mobileNavOverlay.addEventListener('click', closeSidebar);
+        }
+    });
+
+
+
 
     </script>
    <div class="mobile-nav-overlay"></div>
 
+<div class="mobile-nav-overlay"></div>
 <aside class="mobile-nav">
-    <button class="mobile-nav-close" aria-label="Close navigation menu">&times;</button>
+    <div class="mobile-nav-header">
+        <a href="/" class="mobile-nav-logo">
+            <img src="/Images/Buildview.png" alt="BuildView Logo">
+        </a>
+        <button class="mobile-nav-close" aria-label="Close navigation menu">&times;</button>
+    </div>
+
     <nav class="mobile-nav-links">
-        <a href="#">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Services</a>
+        <a href="index.html">Home</a>
+        <a href="main-about.html">About Us</a>
+        <a href="main-Projects.html">Projects</a>
         <a href="#">Our Clients</a>
-        <a href="#">Contact</a>
+        <a href="Contact.html">Contact</a>
     </nav>
+
+    <div class="mobile-nav-footer">
+        <div class="social-links">
+            <a href="#" aria-label="LinkedIn">LN</a>
+            <a href="#" aria-label="Twitter">TW</a>
+            <a href="#" aria-label="Instagram">IN</a>
+        </div>
+        <a href="#" class="btn">Get in Touch</a>
+    </div>
 </aside>
+
 </body>
 
 </html>

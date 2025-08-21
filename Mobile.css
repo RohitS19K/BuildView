@@ -1,6 +1,12 @@
 /* --- ADDED: Mobile Navigation Styles --- */
+/* --- Redesigned Mobile Navigation Styles --- */
+
+/* Hamburger Button (no changes) */
+/* --- Redesigned & Animated Mobile Navigation Styles --- */
+
+/* Hamburger Button (no changes) */
 .mobile-nav-toggle {
-    display: none; /* Hidden on desktop */
+    display: none;
     background: none;
     border: none;
     width: 30px;
@@ -8,7 +14,6 @@
     cursor: pointer;
     z-index: 1001;
 }
-
 .hamburger-line {
     display: block;
     width: 100%;
@@ -18,58 +23,164 @@
     margin: 5px 0;
 }
 
+/* Page Overlay (no changes) */
 .mobile-nav-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
     z-index: 1002;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease;
 }
-
 body.mobile-nav-open .mobile-nav-overlay {
     opacity: 1;
     pointer-events: auto;
 }
 
+/* Redesigned Aside Bar with animations */
 .mobile-nav {
     position: fixed;
     top: 0;
     right: 0;
     height: 100%;
-    width: 280px;
+    width: 300px;
     background: var(--bg-soft);
+    border-left: 1px solid var(--color-glass-border);
     z-index: 1003;
     transform: translateX(100%);
-    transition: transform 0.4s ease;
-    padding: 80px 30px;
+    transition: transform 0.5s cubic-bezier(0.6, 0.04, 0.98, 0.34); /* Eased entry */
+    display: flex;
+    flex-direction: column;
+    /* Add a subtle gradient border at the top */
+    border-top: 2px solid var(--color-purple);
+    border-image: var(--gradient-primary) 1;
 }
-
 body.mobile-nav-open .mobile-nav {
     transform: translateX(0);
 }
 
+/* Staggered animation for content inside the sidebar */
+.mobile-nav > * {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+body.mobile-nav-open .mobile-nav > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Applying delays for the cascade effect */
+body.mobile-nav-open .mobile-nav-header { transition-delay: 0.2s; }
+body.mobile-nav-open .mobile-nav-links a:nth-child(1) { transition-delay: 0.3s; }
+body.mobile-nav-open .mobile-nav-links a:nth-child(2) { transition-delay: 0.35s; }
+body.mobile-nav-open .mobile-nav-links a:nth-child(3) { transition-delay: 0.4s; }
+body.mobile-nav-open .mobile-nav-links a:nth-child(4) { transition-delay: 0.45s; }
+body.mobile-nav-open .mobile-nav-links a:nth-child(5) { transition-delay: 0.5s; }
+body.mobile-nav-open .mobile-nav-footer { transition-delay: 0.6s; }
+
+
+/* Header inside the sidebar */
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    border-bottom: 1px solid var(--color-glass-border);
+    flex-shrink: 0;
+}
+.mobile-nav-logo img {
+    height: 30px;
+}
 .mobile-nav-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
     background: none;
     border: none;
     color: var(--color-text-primary);
     font-size: 2.5rem;
     cursor: pointer;
+    padding: 0;
+    line-height: 1;
 }
 
+/* Redesigned Navigation Links with new hover effect */
+.mobile-nav-links {
+    padding: 20px 30px;
+    flex-grow: 1;
+    overflow-y: auto; /* For smaller screen heights */
+}
 .mobile-nav-links a {
     display: block;
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+    /* Prepare for gradient text effect */
+    background: transparent;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
+}
+.mobile-nav-links a:hover {
+    color: transparent; /* Text color becomes transparent */
+    background-color: rgba(255, 255, 255, 0.05);
+    background-image: var(--gradient-primary); /* Apply gradient to text */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Footer inside the sidebar */
+.mobile-nav-footer {
+    padding: 30px;
+    border-top: 1px solid var(--color-glass-border);
+    text-align: center;
+    flex-shrink: 0;
+}
+.mobile-nav-footer .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+.mobile-nav-footer .social-links a {
+    color: var(--color-text-secondary);
     text-decoration: none;
     font-size: 1rem;
     font-weight: 600;
-    padding: 15px 0;
+    border: 1px solid var(--color-glass-border);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+.mobile-nav-footer .social-links a:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-pink);
+    transform: scale(1.1);
+}
+.mobile-nav-footer .btn {
+    width: 100%;
+    padding: 12px;
 }
 
+/* Responsive Trigger */
+@media (max-width: 992px) {
+    /* Hide desktop nav and show hamburger */
+    .nav-links {
+        display: none;
+    }
+    .mobile-nav-toggle {
+        display: block;
+    }
+}
 
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
@@ -103,6 +214,7 @@ body.mobile-nav-open .mobile-nav {
     }
     .mobile-nav-toggle {
         display: block;
+        
     }
     .mobile-nav-links a :hover {
     color: var(--color-pink);
