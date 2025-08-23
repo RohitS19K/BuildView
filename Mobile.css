@@ -54,8 +54,10 @@ body.mobile-nav-open .mobile-nav-overlay {
     display: flex;
     flex-direction: column;
     /* Add a subtle gradient border at the top */
+      border-top-left-radius: 30px; 
     border-top: 2px solid var(--color-purple);
     border-image: var(--gradient-primary) 1;
+    border-radius: 12px;
 }
 body.mobile-nav-open .mobile-nav {
     transform: translateX(0);

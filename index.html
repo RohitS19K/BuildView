@@ -239,7 +239,9 @@
         .dropdown-menu .dropdown-column {
             flex: 1;
         }
-
+        .dropdown-column{
+            padding: 0 12px;
+        }
         .dropdown-menu h4 {
             color: var(--color-pink);
             font-size: 0.8rem;
@@ -262,7 +264,7 @@
 
         .dropdown-menu p {
             color: var(--color-text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             line-height: 1.5;
             margin-bottom: 12px;
         }
@@ -1070,6 +1072,7 @@
             .cta-button a {
                 font-size: 20px;
             }
+
             /* .nav-btn{
 
             } */
@@ -1117,13 +1120,15 @@
                 font-size: 1rem;
 
             }
-            .mobile-nav-toggle{
+
+            .mobile-nav-toggle {
                 display: block;
-                position: relative; 
+                position: relative;
                 z-index: 1001;
                 padding-left: 10px;
                 padding-bottom: 35px;
             }
+
             .mobile-nav-toggle .hamburger-line {
                 width: 30px;
                 height: 3px;
@@ -1131,9 +1136,11 @@
                 margin: 5px 0;
                 transition: all 0.3s ease;
             }
-            .nav-actions{
-                 font-size: 10px;
+
+            .nav-actions {
+                font-size: 10px;
             }
+
             .bv-process-nav__step-number p {
                 font-size: 12px;
 
@@ -1196,14 +1203,41 @@
                         <a href="#">Products</a>
                         <div class="dropdown-menu glass-card">
                             <div class="dropdown-column">
-                                <h4>Core</h4><a href="#">Payments</a>
-                                <p>A complete payments platform.</p><a href="#">Checkout</a><a href="#">Invoicing</a>
+                                <h4>Core Services</h4><a href="#">Web Development</a>
+                                <p>Custom responsive websites for any business.</p>
+                                <a href="#">UI/UX Design</a>
+                                <p>Modern, user-focused, and interactive experiences.</p>
+                                <a href="#">SEO Optimization</a>
+                                <p>Boost your visibility and organic traffic.</p>
+                                <a href="#">Brand Identity</a>
+                                <p>Logo, colors, and complete visual branding.</p>
                             </div>
                             <div class="dropdown-column">
-                                <h4>Financial</h4><a href="#">Billing</a><a href="#">Connect</a><a href="#">Treasury</a>
+                                <h4>Business Solutions</h4>
+                                <a href="#">Brand Transformation</a>
+                                <p>Full-scale brand revamp & positioning.</p>
+                                <a href="#">E-commerce Solutions</a>
+                                <p>Secure, scalable online stores.</p>
+                                <a href="#">CRM Integration</a>
+                                <p>Efficient lead & client management..</p>
                             </div>
                             <div class="dropdown-column">
-                                <h4>Operations</h4><a href="#">Radar</a><a href="#">Tax</a><a href="#">Atlas</a>
+                                <h4>Gen-AI Solutions</h4>
+                                <a href="#">AI-Powered Chatbots</a>
+                                <p>Smart assistants for 24/7 customer support.</p>
+                                <a href="#">Content Generation</a>
+                                <p>Automated blogs, product descriptions, and more.</p>
+                                <a href="#">Data Analysis</a>
+                                <p>AI-driven insights for better decision-making.</p>
+                            </div>
+                            <div class="dropdown-column">
+                                <h4>Digital Marketing</h4>
+                                <a href="#">Social Media Marketing</a>
+                                <p>Targeted campaigns across all platforms.</p>
+                                <a href="#">Google & Meta Ads</a>
+                                <p>High-performance paid advertising.</p>
+                                <a href="#">Email Campaigns</a>
+                                <p>Convert leads into loyal customers.</p>
                             </div>
                         </div>
                     </li>
@@ -1294,7 +1328,7 @@
                     <h3>Video & Gen-AI</h3>
                     <p>High-quality video production and AI-powered solutions for modern content needs.</p>
                 </div>
-                <div class="bento-card item-4 animate-on-scroll">
+                <div class="bento-card item-4 animate-on-scroll"  onclick="window.location.href='main-branding.html'">
                     <i class="fas fa-palette bento-icon"></i>
                     <h3>Brand Transformation</h3>
                     <p>Crafting memorable brand identities that resonate and inspire trust.</p>
@@ -1913,91 +1947,91 @@
                 });
             }
         });
-    
-    document.addEventListener("DOMContentLoaded", function() {
-        // --- Mobile Navigation Logic ---
-        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-        const mobileNavClose = document.querySelector('.mobile-nav-close');
-        const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
-        const body = document.body;
 
-        if (mobileNavToggle) {
-            // Open the sidebar when the hamburger is clicked
-            mobileNavToggle.addEventListener('click', () => {
-                body.classList.add('mobile-nav-open');
-            });
-        }
-        
-        // Function to close the sidebar
-        const closeSidebar = () => {
-            body.classList.remove('mobile-nav-open');
-        };
+        document.addEventListener("DOMContentLoaded", function () {
+            // --- Mobile Navigation Logic ---
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const mobileNavClose = document.querySelector('.mobile-nav-close');
+            const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+            const body = document.body;
 
-        // Close the sidebar when the close button or overlay is clicked
-        if (mobileNavClose) {
-            mobileNavClose.addEventListener('click', closeSidebar);
-        }
-        if (mobileNavOverlay) {
-            mobileNavOverlay.addEventListener('click', closeSidebar);
-        }
-    });
+            if (mobileNavToggle) {
+                // Open the sidebar when the hamburger is clicked
+                mobileNavToggle.addEventListener('click', () => {
+                    body.classList.add('mobile-nav-open');
+                });
+            }
 
-    
-  
-    document.addEventListener("DOMContentLoaded", function() {
-        // --- Mobile Navigation Logic ---
-        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-        const mobileNavClose = document.querySelector('.mobile-nav-close');
-        const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
-        const body = document.body;
+            // Function to close the sidebar
+            const closeSidebar = () => {
+                body.classList.remove('mobile-nav-open');
+            };
 
-        if (mobileNavToggle) {
-            const openSidebar = () => body.classList.add('mobile-nav-open');
-            mobileNavToggle.addEventListener('click', openSidebar);
-        }
-        
-        const closeSidebar = () => body.classList.remove('mobile-nav-open');
+            // Close the sidebar when the close button or overlay is clicked
+            if (mobileNavClose) {
+                mobileNavClose.addEventListener('click', closeSidebar);
+            }
+            if (mobileNavOverlay) {
+                mobileNavOverlay.addEventListener('click', closeSidebar);
+            }
+        });
 
-        if (mobileNavClose) {
-            mobileNavClose.addEventListener('click', closeSidebar);
-        }
-        if (mobileNavOverlay) {
-            mobileNavOverlay.addEventListener('click', closeSidebar);
-        }
-    });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // --- Mobile Navigation Logic ---
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const mobileNavClose = document.querySelector('.mobile-nav-close');
+            const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+            const body = document.body;
+
+            if (mobileNavToggle) {
+                const openSidebar = () => body.classList.add('mobile-nav-open');
+                mobileNavToggle.addEventListener('click', openSidebar);
+            }
+
+            const closeSidebar = () => body.classList.remove('mobile-nav-open');
+
+            if (mobileNavClose) {
+                mobileNavClose.addEventListener('click', closeSidebar);
+            }
+            if (mobileNavOverlay) {
+                mobileNavOverlay.addEventListener('click', closeSidebar);
+            }
+        });
 
 
 
 
     </script>
-   <div class="mobile-nav-overlay"></div>
+    <div class="mobile-nav-overlay"></div>
 
-<div class="mobile-nav-overlay"></div>
-<aside class="mobile-nav">
-    <div class="mobile-nav-header">
-        <a href="/" class="mobile-nav-logo">
-            <img src="/Images/Buildview.png" alt="BuildView Logo">
-        </a>
-        <button class="mobile-nav-close" aria-label="Close navigation menu">&times;</button>
-    </div>
-
-    <nav class="mobile-nav-links">
-        <a href="index.html">Home</a>
-        <a href="main-about.html">About Us</a>
-        <a href="main-Projects.html">Projects</a>
-        <a href="#">Our Clients</a>
-        <a href="Contact.html">Contact</a>
-    </nav>
-
-    <div class="mobile-nav-footer">
-        <div class="social-links">
-            <a href="#" aria-label="LinkedIn">LN</a>
-            <a href="#" aria-label="Twitter">TW</a>
-            <a href="#" aria-label="Instagram">IN</a>
+    <div class="mobile-nav-overlay"></div>
+    <aside class="mobile-nav">
+        <div class="mobile-nav-header">
+            <a href="/" class="mobile-nav-logo">
+                <img src="/Images/Buildview.png" alt="BuildView Logo">
+            </a>
+            <button class="mobile-nav-close" aria-label="Close navigation menu">&times;</button>
         </div>
-        <a href="#" class="btn">Get in Touch</a>
-    </div>
-</aside>
+
+        <nav class="mobile-nav-links">
+            <a href="index.html">Home</a>
+            <a href="main-about.html">About Us</a>
+            <a href="main-Projects.html">Projects</a>
+            <a href="#">Our Clients</a>
+            <a href="Contact.html">Contact</a>
+        </nav>
+
+        <div class="mobile-nav-footer">
+            <div class="social-links">
+                <a href="#" aria-label="LinkedIn">LN</a>
+                <a href="#" aria-label="Twitter">TW</a>
+                <a href="#" aria-label="Instagram">IN</a>
+            </div>
+            <a href="#" class="btn">Get in Touch</a>
+        </div>
+    </aside>
 
 </body>
 

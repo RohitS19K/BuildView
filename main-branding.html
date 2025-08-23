@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branding Services | BuildView</title>
+    <meta name="description" content="Crafting memorable brand identities that resonate with audiences and drive business growth.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- Core Styles (from your main site) --- */
+        :root {
+            --bg-dark: #070914;
+            --bg-soft: #101223;
+            --glass-bg: rgba(22, 25, 48, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f4f8;
+            --text-secondary: #a8b2d1;
+            --primary-pink: #ff0080;
+            --primary-purple: #7928ca;
+            --primary-gradient: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        .page-container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+        .gradient-text { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .btn {
+            background: var(--primary-gradient); color: var(--text-primary); padding: 14px 32px;
+            border-radius: 8px; font-weight: 600; text-decoration: none; border: none;
+            cursor: pointer; display: inline-block; transition: all 0.3s ease;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+
+        /* --- Main Header (Consistent with your site) --- */
+        .main-header {
+            position: sticky; top: 16px; margin: 16px auto; z-index: 100;
+            background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md); padding: 12px 24px; display: flex; align-items: center;
+            justify-content: space-between; transition: all 0.3s ease;
+        }
+        .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+        .logo .mark { width: 44px; height: 44px; background: var(--primary-gradient); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .logo .mark img { width: 80%; height: 80%; object-fit: contain; }
+        .logo-text h3 { font-size: 1.25rem; line-height: 1; color: var(--text-primary); }
+        .logo-text p { font-size: 0.75rem; color: var(--text-secondary); }
+
+        /* --- Timeline Wrapper --- */
+        .timeline-wrapper { position: relative; padding-left: 40px; }
+        .timeline-wrapper::before {
+            content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
+            width: 2px; background-image: linear-gradient(to bottom, var(--primary-purple) 0%, var(--primary-pink) 100%);
+            opacity: 0.1;
+        }
+        .timeline-section { position: relative; padding: 80px 0; }
+        .timeline-section::before {
+            content: ''; position: absolute; left: -35px; top: 90px;
+            width: 12px; height: 12px; background: var(--bg-soft);
+            border: 2px solid var(--text-secondary); opacity: 0.3;
+            border-radius: 50%; transition: all 0.5s ease;
+        }
+        .timeline-section.is-visible::before {
+            border-color: var(--primary-pink); transform: scale(1.2);
+            opacity: 1; box-shadow: 0 0 15px var(--primary-pink);
+        }
+
+        /* --- Unique Styles for Branding Page --- */
+        .bv-brand-header { text-align: center; max-width: 800px; margin: 0 auto; }
+        .bv-brand-header h1 { font-size: clamp(3rem, 7vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 24px; }
+        .bv-brand-header p { font-size: 1.25rem; color: var(--text-secondary); line-height: 1.7; }
+
+        .bv-brand-section-header { text-align: center; max-width: 700px; margin: 0 auto 60px auto; }
+        .bv-brand-section-header h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; }
+        .bv-brand-section-header p { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; }
+
+        .bv-brand-services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+        }
+        .bv-brand-service-card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
+            padding: 32px; transition: all 0.3s ease; transform-style: preserve-3d;
+        }
+        .bv-brand-service-card .icon {
+            width: 48px; height: 48px; background: var(--primary-gradient); border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+        }
+        .bv-brand-service-card .icon svg { width: 24px; height: 24px; }
+        .bv-brand-service-card h3 { font-size: 1.5rem; margin-bottom: 12px; }
+        .bv-brand-service-card p { color: var(--text-secondary); line-height: 1.6; }
+
+        .bv-brand-ba-slider {
+            position: relative; width: 100%; max-width: 900px; margin: 0 auto;
+            aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-lg);
+        }
+        .bv-brand-ba-slider .image-container { position: absolute; inset: 0; overflow: hidden; }
+        .bv-brand-ba-slider .image-container img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .bv-brand-ba-slider .before-image { z-index: 1; }
+        .bv-brand-ba-slider .after-image { z-index: 2; width: 50%; }
+        .bv-brand-ba-slider .slider-handle {
+            position: absolute; top: 0; left: 50%; width: 4px; height: 100%;
+            background: var(--text-primary); cursor: ew-resize; z-index: 3; transform: translateX(-50%);
+        }
+        .bv-brand-ba-slider .handle-icon {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 40px; height: 40px; background: var(--text-primary); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: var(--bg-dark);
+        }
+
+        .bv-brand-stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px; text-align: center;
+        }
+        .bv-brand-stat h3 { font-size: 3rem; font-weight: 800; }
+        .bv-brand-stat p { color: var(--text-secondary); font-weight: 500; }
+        
+        .bv-brand-cta { text-align: center; padding: 40px; background: var(--glass-bg); border-radius: var(--radius-lg); border: 1px solid var(--glass-border); }
+
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in.is-visible { opacity: 1; transform: translateY(0); }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-header { flex-direction: column; gap: 12px; position: static; margin-top: 0; border-radius: 0; }
+            .timeline-wrapper { padding-left: 20px; }
+            .timeline-wrapper::before { left: 0; }
+            .timeline-section::before { left: -6px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <header class="main-header">
+            <a href="/" class="logo">
+                <div class="mark"><img src="/Images/Buildview.png" alt="B"></div>
+                <div class="logo-text">
+                    <h3>BuildView</h3>
+                    <p>Creative Studio</p>
+                </div>
+            </a>
+            <nav>
+                <a href="Contact.html" class="btn">Get in Touch</a>
+            </nav>
+        </header>
+    </div>
+
+    <main class="timeline-wrapper page-container">
+        <section class="timeline-section">
+            <header class="bv-brand-header fade-in">
+                <h1>Crafting <span class="gradient-text">Unforgettable</span> Brands</h1>
+                <p>We build powerful brand identities that capture attention, build trust, and drive business growth. From strategy and messaging to visual design, we create brands that resonate.</p>
+            </header>
+        </section>
+
+        <section class="timeline-section">
+            <div class="bv-brand-services-grid">
+                <div class="bv-brand-service-card fade-in" data-tilt>
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.311a7.5 7.5 0 0 1-7.5 0c-1.421-.492-2.694-1.2-3.75-2.016" /></svg></div>
+                    <h3>Brand Strategy</h3>
+                    <p>We define your brand’s purpose, positioning, and personality to build a solid foundation for growth.</p>
+                </div>
+                <div class="bv-brand-service-card fade-in" data-tilt style="transition-delay: 150ms;">
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0a24.295 24.295 0 0 1 .75.082m-12 12.238c.62-.814 1.427-1.545 2.37-2.062m0 0L15 14.5M4.5 20.896a24.301 24.301 0 0 1 0-4.5m15 4.5a24.295 24.295 0 0 1 0-4.5" /></svg></div>
+                    <h3>Visual Identity</h3>
+                    <p>From logos to color palettes, we design a cohesive visual system that makes your brand instantly recognizable.</p>
+                </div>
+                <div class="bv-brand-service-card fade-in" data-tilt style="transition-delay: 300ms;">
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" /></svg></div>
+                    <h3>Messaging & Tone</h3>
+                    <p>We craft a unique voice and compelling narrative that connects with your target audience on an emotional level.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline-section">
+            <div class="bv-brand-section-header fade-in">
+                <h2>The Power of a Rebrand</h2>
+                <p>Drag the handle to see the transformation. A strong brand identity can elevate perception and drive results.</p>
+            </div>
+            <div class="bv-brand-ba-slider fade-in" id="ba-slider">
+                <div class="image-container before-image">
+                    <img src="/Images/OLD.png" alt="Before Rebrand">
+                </div>
+                <div class="image-container after-image">
+                    <img src="/Images/New.png" alt="After Rebrand">
+                </div>
+                <div class="slider-handle" id="slider-handle">
+                    <div class="handle-icon">&leftrightarrow;</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="timeline-section">
+             <div class="bv-brand-stats-grid fade-in">
+                <div class="bv-brand-stat">
+                    <h3 class="gradient-text" data-count="75">0%</h3>
+                    <p>Increase in Brand Recall</p>
+                </div>
+                 <div class="bv-brand-stat">
+                    <h3 class="gradient-text" data-count="200">0%</h3>
+                    <p>Growth in Social Engagement</p>
+                </div>
+                 <div class="bv-brand-stat">
+                    <h3 class="gradient-text" data-count="50">0%</h3>
+                    <p>Higher Customer Trust</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="timeline-section">
+            <div class="bv-brand-cta fade-in">
+                 <div class="bv-brand-section-header">
+                    <h2>Ready to Build a Brand that Lasts?</h2>
+                    <p>Let's talk about your vision. We're here to help you craft a brand identity that makes an impact and stands the test of time.</p>
+                </div>
+                <a href="#" class="btn">Start Your Branding Project</a>
+            </div>
+        </section>
+
+    </main>
+    
+    <div class="page-container">
+        <footer class="main-footer">
+            <p>© 2025 BuildView Creative Studio. All Rights Reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- Observer for Fade-in and Timeline ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in, .timeline-section').forEach(el => observer.observe(el));
+
+        // --- 3D Tilt Effect ---
+        const tiltElements = document.querySelectorAll('[data-tilt]');
+        tiltElements.forEach(el => {
+            const intensity = 8;
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const rotateX = (intensity * (y - rect.height / 2)) / (rect.height / 2);
+                const rotateY = -(intensity * (x - rect.width / 2)) / (rect.width / 2);
+                el.style.transition = 'transform 0.1s ease-out';
+                el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transition = 'transform 0.5s ease-in-out';
+                el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        });
+
+        // --- Before & After Slider ---
+        const slider = document.getElementById('ba-slider');
+        if (slider) {
+            const handle = document.getElementById('slider-handle');
+            const afterImage = slider.querySelector('.after-image');
+            let isDragging = false;
+            
+            const startDrag = () => { isDragging = true; };
+            const stopDrag = () => { isDragging = false; };
+            const onDrag = (e) => {
+                if (!isDragging) return;
+                const rect = slider.getBoundingClientRect();
+                let offsetX = (e.clientX || e.touches[0].clientX) - rect.left;
+                let width = Math.max(0, Math.min(offsetX, rect.width));
+                afterImage.style.width = `${width}px`;
+                handle.style.left = `${width}px`;
+            };
+            
+            handle.addEventListener('mousedown', startDrag);
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('mousemove', onDrag);
+            handle.addEventListener('touchstart', startDrag);
+            document.addEventListener('touchend', stopDrag);
+            document.addEventListener('touchmove', onDrag);
+        }
+        
+        // --- Animated Counters ---
+        const countObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.getAttribute('data-count'), 10);
+                    let current = 0;
+                    const duration = 2000;
+                    const stepTime = 20;
+                    const steps = duration / stepTime;
+                    const increment = target / steps;
+                    
+                    const updateCount = () => {
+                        current += increment;
+                        if (current < target) {
+                            el.innerText = `${Math.ceil(current)}%`;
+                            setTimeout(updateCount, stepTime);
+                        } else {
+                            el.innerText = `${target}%`;
+                        }
+                    };
+                    updateCount();
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
+    });
+    </script>
+</body>
+</html>
