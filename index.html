@@ -933,6 +933,110 @@
             /* --primary-pink */
         }
 
+        /* client testimonials */
+        /* --- Styles for Self-Contained Testimonials Section --- */
+/* --- New Scrolling Wall Styles --- */
+.bv-wall-section {
+    padding: 80px 0;
+    position: relative;
+}
+.bv-wall-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px auto;
+}
+.bv-wall-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; }
+.bv-wall-header p { font-size: 1.1rem; color: var(--text-secondary); }
+
+.bv-wall-container {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    height: 500px; /* Fixed height for the scrolling area */
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+.bv-wall-container.is-paused .bv-wall-column {
+    animation-play-state: paused;
+}
+
+.bv-wall-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Animations for different columns */
+@keyframes scrollUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+}
+@keyframes scrollDown {
+    from { transform: translateY(-50%); }
+    to { transform: translateY(0); }
+}
+.bv-wall-column:nth-child(1) { animation: scrollDown 40s linear infinite; }
+.bv-wall-column:nth-child(2) { animation: scrollUp 60s linear infinite; }
+.bv-wall-column:nth-child(3) { animation: scrollDown 45s linear infinite; }
+
+.bv-wall-card {
+    padding: 24px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    width: 320px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s 0.3s;
+}
+.bv-wall-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+.bv-wall-card.is-frozen {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 25px var(--primary-pink);
+    border-color: var(--primary-pink);
+    z-index: 20;
+}
+
+.bv-wall-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+.bv-wall-client {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.bv-wall-client img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.bv-wall-client-details h4 { font-size: 1rem; font-weight: 600; color: var(--text-primary); }
+.bv-wall-client-details span { font-size: 0.85rem; color: var(--text-secondary); }
+
+@media (max-width: 768px) {
+    .bv-wall-column:nth-child(3) { display: none; }
+}
+@media (max-width: 576px) {
+    .bv-wall-column:nth-child(2) { display: none; }
+    .bv-wall-card { width: 100%; }
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .client-feedback-showcase__quote-text {
+        font-size: 1.25rem;
+    }
+}
+        /* client testimonials */
+
         /* --- Animation Styles --- */
         .animate-on-scroll {
             opacity: 0;
@@ -1029,6 +1133,11 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* testimonial */
+            /* --- New Quote Grid Styles --- */
+/* --- Styles for Interactive Quote Grid Section --- */
+
+        /* testimonial */
 
         /* --- RESPONSIVE --- */
         @media (max-width: 992px) {
@@ -1593,6 +1702,92 @@
             </div>
         </section>
 
+<section class="bv-wall-section" id="bv-wall-section">
+    <div class="bv-wall-header">
+        <h2>A <span class="gradient-text">Wall of Praise</span> From Our Partners</h2>
+        <p>We're more than just a service; we're a growth partner. Here's what our clients have to say.</p>
+    </div>
+    <div class="bv-wall-container">
+        <div class="bv-wall-column">
+            <div class="bv-wall-card">
+                <p>"BuildView's process is incredibly clear and collaborative. We felt like a true partner every step of the way."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100" alt="Client 1"><div class="bv-wall-client-details"><h4>Rohan Sharma</h4><span>CEO, WipeOut</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"The final product exceeded our expectations. The new branding has been a massive hit with our customers."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100" alt="Client 2"><div class="bv-wall-client-details"><h4>Aditi Verma</h4><span>Marketing, Aura Cosmetics</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"Their SEO strategy delivered tangible results, putting us on the first page for our most important keywords."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100" alt="Client 3"><div class="bv-wall-client-details"><h4>Arjun Mehta</h4><span>Founder, Gaushala Seva</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"BuildView's process is incredibly clear and collaborative. We felt like a true partner every step of the way."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100" alt="Client 1"><div class="bv-wall-client-details"><h4>Rohan Sharma</h4><span>CEO, WipeOut</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"The final product exceeded our expectations. The new branding has been a massive hit with our customers."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100" alt="Client 2"><div class="bv-wall-client-details"><h4>Aditi Verma</h4><span>Marketing, Aura Cosmetics</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"Their SEO strategy delivered tangible results, putting us on the first page for our most important keywords."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100" alt="Client 3"><div class="bv-wall-client-details"><h4>Arjun Mehta</h4><span>Founder, Gaushala Seva</span></div></div>
+            </div>
+        </div>
+        <div class="bv-wall-column">
+             <div class="bv-wall-card">
+                <p>"The team's creativity and technical skill are unmatched. They are true professionals in every sense."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100" alt="Client 4"><div class="bv-wall-client-details"><h4>Kavya Iyer</h4><span>Director, Innovate Corp</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"Fast, responsive, and deeply knowledgeable. They transformed our digital presence."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=100" alt="Client 5"><div class="bv-wall-client-details"><h4>Vikram Singh</h4><span>Manager, Connect Social</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"An essential partner for any business looking to grow online. Highly recommended."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100" alt="Client 6"><div class="bv-wall-client-details"><h4>Priya Nair</h4><span>Specialist, Quantum Inc.</span></div></div>
+            </div>
+             <div class="bv-wall-card">
+                <p>"The team's creativity and technical skill are unmatched. They are true professionals in every sense."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100" alt="Client 4"><div class="bv-wall-client-details"><h4>Kavya Iyer</h4><span>Director, Innovate Corp</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"Fast, responsive, and deeply knowledgeable. They transformed our digital presence."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=100" alt="Client 5"><div class="bv-wall-client-details"><h4>Vikram Singh</h4><span>Manager, Connect Social</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"An essential partner for any business looking to grow online. Highly recommended."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100" alt="Client 6"><div class="bv-wall-client-details"><h4>Priya Nair</h4><span>Specialist, Quantum Inc.</span></div></div>
+            </div>
+        </div>
+        <div class="bv-wall-column">
+            <div class="bv-wall-card">
+                <p>"BuildView's process is incredibly clear and collaborative. We felt like a true partner every step of the way."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100" alt="Client 1"><div class="bv-wall-client-details"><h4>Rohan Sharma</h4><span>CEO, WipeOut</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"The final product exceeded our expectations. The new branding has been a massive hit with our customers."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100" alt="Client 2"><div class="bv-wall-client-details"><h4>Aditi Verma</h4><span>Marketing, Aura Cosmetics</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"Their SEO strategy delivered tangible results, putting us on the first page for our most important keywords."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100" alt="Client 3"><div class="bv-wall-client-details"><h4>Arjun Mehta</h4><span>Founder, Gaushala Seva</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"BuildView's process is incredibly clear and collaborative. We felt like a true partner every step of the way."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100" alt="Client 1"><div class="bv-wall-client-details"><h4>Rohan Sharma</h4><span>CEO, WipeOut</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"The final product exceeded our expectations. The new branding has been a massive hit with our customers."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100" alt="Client 2"><div class="bv-wall-client-details"><h4>Aditi Verma</h4><span>Marketing, Aura Cosmetics</span></div></div>
+            </div>
+            <div class="bv-wall-card">
+                <p>"Their SEO strategy delivered tangible results, putting us on the first page for our most important keywords."</p>
+                <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100" alt="Client 3"><div class="bv-wall-client-details"><h4>Arjun Mehta</h4><span>Founder, Gaushala Seva</span></div></div>
+            </div>
+        </div>
+    </div>
+</section>
         <!-- <section id="blog" class="section container">
             <div class="section-header animate-on-scroll">
                 <h2>Latest <span class="gradient-text"> Insights</span></h2>
@@ -1662,6 +1857,7 @@
                 </a>
             </div>
         </section>
+  
 
         <section id="faq" class="section container">
             <div class="section-header animate-on-scroll">
@@ -1999,6 +2195,56 @@
                 mobileNavOverlay.addEventListener('click', closeSidebar);
             }
         });
+   
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const wallSection = document.getElementById('bv-wall-section');
+    const container = wallSection.querySelector('.bv-wall-container');
+    const columns = container.querySelectorAll('.bv-wall-column');
+    const cards = container.querySelectorAll('.bv-wall-card');
+    
+    let isFrozen = false;
+    let frozenCard = null;
+
+    // Hover to pause animation
+    container.addEventListener('mouseenter', () => {
+        if (!isFrozen) {
+            columns.forEach(col => col.style.animationPlayState = 'paused');
+        }
+    });
+    container.addEventListener('mouseleave', () => {
+        if (!isFrozen) {
+            columns.forEach(col => col.style.animationPlayState = 'running');
+        }
+    });
+    
+    // Click to freeze/unfreeze a card
+    container.addEventListener('click', (e) => {
+        const card = e.target.closest('.bv-wall-card');
+        if (!card) return;
+
+        if (isFrozen && card === frozenCard) {
+            // Unfreeze: resume animation
+            isFrozen = false;
+            frozenCard.classList.remove('is-frozen');
+            frozenCard = null;
+            columns.forEach(col => col.style.animationPlayState = 'running');
+        } else {
+            // Freeze: stop animation and highlight card
+            isFrozen = true;
+            if (frozenCard) {
+                frozenCard.classList.remove('is-frozen');
+            }
+            card.classList.add('is-frozen');
+            frozenCard = card;
+            columns.forEach(col => col.style.animationPlayState = 'paused');
+        }
+    });
+});
+
+
+
 
 
 

@@ -3,161 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aside Bar Example</title>
+    <title>Scrolling Wall of Praise</title>
     <style>
-        /* --- Basic Setup & Colors --- */
+        /* --- Assumed Core Styles --- */
         :root {
             --bg-dark: #070914;
             --bg-soft: #101223;
+            --glass-bg: rgba(22, 25, 48, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --text-primary: #f0f4f8;
             --text-secondary: #a8b2d1;
             --primary-pink: #ff0080;
+            --primary-purple: #7928ca;
+            --primary-gradient: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+            --radius-lg: 16px;
         }
+        body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-primary); }
+        .page-container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+        .gradient-text { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-        body {
-            font-family: sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
-            margin: 0;
-            padding: 20px;
+        /* --- New Scrolling Wall Styles --- */
+        .bv-wall-section {
+            padding: 80px 0;
+            position: relative;
         }
-
-        /* Prevent scrolling when sidebar is open */
-        body.sidebar-open {
+        .bv-wall-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+        }
+        .bv-wall-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; }
+        .bv-wall-header p { font-size: 1.1rem; color: var(--text-secondary); }
+        
+        .bv-wall-container {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            height: 500px; /* Fixed height for the scrolling area */
             overflow: hidden;
+            /* Fades the top and bottom for a seamless look */
+            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
         }
-
-        /* --- Hamburger Button --- */
-        .hamburger-btn {
-            background: none;
-            border: 1px solid var(--text-secondary);
-            border-radius: 8px;
-            width: 50px;
-            height: 40px;
-            cursor: pointer;
+        .bv-wall-column {
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
-            padding: 8px;
-            z-index: 1001; /* Make sure it's above other content */
+            gap: 24px;
         }
-        .hamburger-line {
-            display: block;
-            width: 100%;
-            height: 3px;
-            background-color: var(--text-primary);
-            border-radius: 3px;
+        .bv-wall-container:hover .bv-wall-column {
+            animation-play-state: paused;
         }
 
-        /* --- Page Overlay --- */
-        .page-overlay {
-            position: fixed;
-            inset: 0; /* top, right, bottom, left = 0 */
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
+        /* Animations for different columns */
+        @keyframes scrollUp {
+            from { transform: translateY(0); }
+            to { transform: translateY(-50%); }
         }
-        body.sidebar-open .page-overlay {
-            opacity: 1;
-            pointer-events: auto;
+        @keyframes scrollDown {
+            from { transform: translateY(-50%); }
+            to { transform: translateY(0); }
         }
+        .bv-wall-column:nth-child(1) { animation: scrollDown 40s linear infinite; }
+        .bv-wall-column:nth-child(2) { animation: scrollUp 60s linear infinite; }
+        .bv-wall-column:nth-child(3) { animation: scrollDown 45s linear infinite; }
 
-        /* --- Aside Bar --- */
-        .aside-bar {
-            position: fixed;
-            top: 0;
-            right: 0;
-            height: 100vh;
-            width: 280px;
-            background-color: var(--bg-soft);
-            padding: 80px 30px;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
-            z-index: 1000;
-            
-            /* Hidden by default */
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        .bv-wall-card {
+            padding: 24px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            width: 320px;
         }
-        body.sidebar-open .aside-bar {
-            transform: translateX(0);
+        .bv-wall-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
         }
+        .bv-wall-client {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .bv-wall-client img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .bv-wall-client-details h4 { font-size: 1rem; font-weight: 600; color: var(--text-primary); }
+        .bv-wall-client-details span { font-size: 0.85rem; color: var(--text-secondary); }
         
-        .aside-bar .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 2.5rem;
-            cursor: pointer;
+        @media (max-width: 768px) {
+            .bv-wall-column:nth-child(3) { display: none; }
         }
-
-        .aside-nav a {
-            display: block;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-            padding: 15px 0;
-            transition: color 0.3s;
-        }
-        .aside-nav a:hover {
-            color: var(--primary-pink);
+        @media (max-width: 576px) {
+            .bv-wall-column:nth-child(2) { display: none; }
+            .bv-wall-card { width: 100%; }
         }
     </style>
 </head>
 <body>
-
-    <button class="hamburger-btn" id="open-sidebar-btn" aria-label="Open navigation menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-    </button>
-
-    <p>Main page content goes here. Click the hamburger button to open the aside bar.</p>
-
-    <div class="page-overlay" id="page-overlay"></div>
-
-    <aside class="aside-bar" id="aside-bar">
-        <button class="close-btn" id="close-sidebar-btn" aria-label="Close navigation menu">&times;</button>
-        <nav class="aside-nav">
-            <a href="#home">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </aside>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- JavaScript for Sidebar Functionality ---
-
-            // Get all the necessary elements
-            const openBtn = document.getElementById('open-sidebar-btn');
-            const closeBtn = document.getElementById('close-sidebar-btn');
-            const overlay = document.getElementById('page-overlay');
-            const sidebar = document.getElementById('aside-bar');
-            const body = document.body;
-
-            // Function to open the sidebar
-            function openSidebar() {
-                body.classList.add('sidebar-open');
-            }
-
-            // Function to close the sidebar
-            function closeSidebar() {
-                body.classList.remove('sidebar-open');
-            }
-
-            // Add event listeners
-            openBtn.addEventListener('click', openSidebar);
-            closeBtn.addEventListener('click', closeSidebar);
-            overlay.addEventListener('click', closeSidebar);
-        });
-    </script>
+    <section class="bv-wall-section">
+        <div class="bv-wall-header">
+            <h2>A <span class="gradient-text">Wall of Praise</span> From Our Partners</h2>
+            <p>We're more than just a service; we're a growth partner. Here's what our clients have to say.</p>
+        </div>
+        <div class="bv-wall-container">
+            <div class="bv-wall-column">
+                <div class="bv-wall-card">
+                    <p>"BuildView's process is incredibly clear and collaborative. We felt like a true partner every step of the way."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100" alt="Client 1"><div class="bv-wall-client-details"><h4>Rohan Sharma</h4><span>CEO, WipeOut</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"The final product exceeded our expectations. The new branding has been a massive hit with our customers."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100" alt="Client 2"><div class="bv-wall-client-details"><h4>Aditi Verma</h4><span>Marketing, Aura Cosmetics</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"Their SEO strategy delivered tangible results, putting us on the first page for our most important keywords."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100" alt="Client 3"><div class="bv-wall-client-details"><h4>Arjun Mehta</h4><span>Founder, Gaushala Seva</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"BuildView's process is incredibly clear and collaborative. We felt like a true partner every step of the way."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100" alt="Client 1"><div class="bv-wall-client-details"><h4>Rohan Sharma</h4><span>CEO, WipeOut</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"The final product exceeded our expectations. The new branding has been a massive hit with our customers."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100" alt="Client 2"><div class="bv-wall-client-details"><h4>Aditi Verma</h4><span>Marketing, Aura Cosmetics</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"Their SEO strategy delivered tangible results, putting us on the first page for our most important keywords."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100" alt="Client 3"><div class="bv-wall-client-details"><h4>Arjun Mehta</h4><span>Founder, Gaushala Seva</span></div></div>
+                </div>
+            </div>
+            <div class="bv-wall-column">
+                 <div class="bv-wall-card">
+                    <p>"The team's creativity and technical skill are unmatched. They are true professionals in every sense."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100" alt="Client 4"><div class="bv-wall-client-details"><h4>Kavya Iyer</h4><span>Director, Innovate Corp</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"Fast, responsive, and deeply knowledgeable. They transformed our digital presence."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=100" alt="Client 5"><div class="bv-wall-client-details"><h4>Vikram Singh</h4><span>Manager, Connect Social</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"An essential partner for any business looking to grow online. Highly recommended."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100" alt="Client 6"><div class="bv-wall-client-details"><h4>Priya Nair</h4><span>Specialist, Quantum Inc.</span></div></div>
+                </div>
+                 <div class="bv-wall-card">
+                    <p>"The team's creativity and technical skill are unmatched. They are true professionals in every sense."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100" alt="Client 4"><div class="bv-wall-client-details"><h4>Kavya Iyer</h4><span>Director, Innovate Corp</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"Fast, responsive, and deeply knowledgeable. They transformed our digital presence."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=100" alt="Client 5"><div class="bv-wall-client-details"><h4>Vikram Singh</h4><span>Manager, Connect Social</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"An essential partner for any business looking to grow online. Highly recommended."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100" alt="Client 6"><div class="bv-wall-client-details"><h4>Priya Nair</h4><span>Specialist, Quantum Inc.</span></div></div>
+                </div>
+            </div>
+            <div class="bv-wall-column">
+                <div class="bv-wall-card">
+                    <p>"BuildView's process is incredibly clear and collaborative. We felt like a true partner every step of the way."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100" alt="Client 1"><div class="bv-wall-client-details"><h4>Rohan Sharma</h4><span>CEO, WipeOut</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"The final product exceeded our expectations. The new branding has been a massive hit with our customers."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100" alt="Client 2"><div class="bv-wall-client-details"><h4>Aditi Verma</h4><span>Marketing, Aura Cosmetics</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"Their SEO strategy delivered tangible results, putting us on the first page for our most important keywords."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100" alt="Client 3"><div class="bv-wall-client-details"><h4>Arjun Mehta</h4><span>Founder, Gaushala Seva</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"BuildView's process is incredibly clear and collaborative. We felt like a true partner every step of the way."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100" alt="Client 1"><div class="bv-wall-client-details"><h4>Rohan Sharma</h4><span>CEO, WipeOut</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"The final product exceeded our expectations. The new branding has been a massive hit with our customers."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100" alt="Client 2"><div class="bv-wall-client-details"><h4>Aditi Verma</h4><span>Marketing, Aura Cosmetics</span></div></div>
+                </div>
+                <div class="bv-wall-card">
+                    <p>"Their SEO strategy delivered tangible results, putting us on the first page for our most important keywords."</p>
+                    <div class="bv-wall-client"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100" alt="Client 3"><div class="bv-wall-client-details"><h4>Arjun Mehta</h4><span>Founder, Gaushala Seva</span></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
