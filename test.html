@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honeycomb Grid</title>
+    <style>
+        /* --- Assumed Core Styles --- */
+        :root {
+            --bg-dark: #070914;
+            --bg-soft: #101223;
+            --glass-bg: rgba(22, 25, 48, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f4f8;
+            --text-secondary: #a8b2d1;
+            --primary-pink: #ff0080;
+            --primary-purple: #7928ca;
+            --primary-gradient: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+        }
+        body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-primary); }
+        .gradient-text { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        /* --- New Honeycomb Styles --- */
+        .bv-honeycomb-section {
+            padding: 80px 20px;
+        }
+        .bv-honeycomb-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+        }
+        .bv-honeycomb-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; }
+        .bv-honeycomb-header p { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; }
+
+        .bv-honeycomb-grid {
+            --s: 150px; /* size of the hexagon */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, var(--s));
+            justify-content: center;
+            gap: 4px;
+        }
+        .bv-honeycomb-cell {
+            width: var(--s);
+            height: calc(var(--s) * 1.1547);
+            clip-path: polygon(0% 25%, 50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%);
+            background: var(--glass-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .bv-honeycomb-grid .bv-honeycomb-cell:nth-child(even) {
+            margin-top: calc(var(--s) * 0.57735);
+        }
+        .bv-honeycomb-cell:hover {
+            background: var(--bg-soft);
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .bv-honeycomb-content {
+            text-align: center;
+        }
+        .bv-honeycomb-content img {
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+        .bv-honeycomb-content span {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        .bv-honeycomb-cell:hover img {
+            transform: translateY(-10px);
+        }
+        .bv-honeycomb-cell:hover span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .bv-honeycomb-grid { --s: 120px; }
+        }
+        @media (max-width: 480px) {
+            .bv-honeycomb-grid { --s: 100px; }
+            .bv-honeycomb-grid .bv-honeycomb-cell:nth-child(even) { margin-top: calc(var(--s) * 0.57735 + 2px); }
+        }
+    </style>
+</head>
+<body>
+
+<section class="bv-honeycomb-section">
+    <div class="bv-honeycomb-header">
+        <h2>Our <span class="gradient-text">Technology</span> Hive</h2>
+        <p>We build with a powerful and interconnected stack, ensuring every part of your project works in perfect harmony.</p>
+    </div>
+    <div class="bv-honeycomb-grid">
+        <div class="bv-honeycomb-cell">
+            <div class="bv-honeycomb-content">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React">
+                <span>React</span>
+            </div>
+        </div>
+        <div class="bv-honeycomb-cell">
+             <div class="bv-honeycomb-content">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS">
+                <span>Tailwind</span>
+            </div>
+        </div>
+        <div class="bv-honeycomb-cell">
+             <div class="bv-honeycomb-content">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node.js">
+                <span>Node.js</span>
+            </div>
+        </div>
+        <div class="bv-honeycomb-cell">
+             <div class="bv-honeycomb-content">
+                <img src="https://www.vectorlogo.zone/logos/mongodb/mongodb-icon.svg" alt="MongoDB">
+                <span>MongoDB</span>
+            </div>
+        </div>
+        <div class="bv-honeycomb-cell">
+             <div class="bv-honeycomb-content">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma">
+                <span>Figma</span>
+            </div>
+        </div>
+        <div class="bv-honeycomb-cell">
+             <div class="bv-honeycomb-content">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/Adobe_XD_CC_icon.svg" alt="Adobe XD">
+                <span>Adobe XD</span>
+            </div>
+        </div>
+        <div class="bv-honeycomb-cell">
+             <div class="bv-honeycomb-content">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" alt="JavaScript">
+                <span>JavaScript</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
